@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('nom_entreprise');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', ['admin', 'entrepreneur_en_attente', 'entrepreneur_approuve', 'entrepreneur_refuse'])->default('entrepreneur_en_attente');
+            $table->string('status')->default('en_attente');
+            $table->text('raison_rejet')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
