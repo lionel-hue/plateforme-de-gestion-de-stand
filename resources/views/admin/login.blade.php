@@ -18,8 +18,8 @@
         <button type="submit" class="btn btn-primary">Se connecter</button>
     </form>
     <p class="mt-4 text-center">
-        Vous n'etes pas autorisé a etre ici, bon retour sur la page d'accueil
-        <a href="/" class="btn btn-secondary">Retour</a>
+        pas de compte ? se connecter
+        <a href="{{ route ('register') }}" class="btn btn-secondary">S'inscrire</a>
     </p>
 </div>
 @endsection

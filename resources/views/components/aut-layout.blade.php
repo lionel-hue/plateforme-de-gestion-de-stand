@@ -3,7 +3,35 @@
 <head>
     <title>@yield('title')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}">
+    <!-- <link rel="stylesheet" href="{{ asset('css/admin-style-dark.css') }}"> -->
+
+    <style>
+        html, body {
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        .transition-fade {
+            animation: fadeInUp 0.5s ease;
+        }
+        .btn, .nav-link, .btn-outline-secondary {
+            transition: all 0.3s ease-in-out;
+        }
+        .btn:hover, .nav-link:hover, .btn-outline-secondary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 0.5rem rgba(0,0,0,0.2);
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        </style>
 </head>
 <body>
     <div class="container">
