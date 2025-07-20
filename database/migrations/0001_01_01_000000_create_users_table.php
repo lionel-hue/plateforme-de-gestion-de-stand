@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('role', ['admin', 'entrepreneur_en_attente', 'entrepreneur_approuve', 'entrepreneur_refuse'])->default('entrepreneur_en_attente');
             $table->string('status')->default('en_attente');
             $table->text('raison_rejet')->nullable();
+            $table->string('token')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
