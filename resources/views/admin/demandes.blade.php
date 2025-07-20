@@ -1,23 +1,37 @@
-<html>
-<head>
-    <title>Plateforme de gestion de stand</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</head>
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="text-center">Plateforme de gestion de stand</h2>
-                    </div>
-                    <div class="card-body">
-                        <p class="text-center">Plateforme de gestion de stand</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+@extends('components.aut-layout')
+
+@section('title', 'Demandes en attente')
+
+@section('content')
+    <h2 class="mb-4">Demandes de stand en attente</h2>
+    <table class="table table-bordered table-striped">
+        <thead class="table-warning">
+            <tr>
+                <th>Entreprise</th>
+                <th>Email</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($demandes as $demande)
+            <tr>
+                <td>{{ $demande->nom_entreprise }}</td>
+                <td>{{ $demande->email }}</td>
+                <td>{{ $demande->created_at->format('d/m/Y') }}</td>
+                <td>
+                    <form action="{{ route('admin.approuver', $demande->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-success btn-sm">Approuver</button>
+                    </form>
+                    <form action="{{ route('admin.rejeter', $demande->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        <input type="text" name="raison_rejet" placeholder="Motif" class="form-control form-control-sm d-inline w-auto">
+                        <button type="submit" class="btn btn-danger btn-sm">Rejeter</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+@endsection
