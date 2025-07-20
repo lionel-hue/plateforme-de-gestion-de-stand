@@ -1,23 +1,21 @@
-<html>
-<head>
-    <title>Plateforme de gestion de stand</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</head>
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="text-center">Plateforme de gestion de stand</h2>
-                    </div>
-                    <div class="card-body">
-                        <p class="text-center">Plateforme de gestion de stand</p>
-                    </div>
+@extends('components.aut-layout')
+
+@section('title', 'stands')
+
+@section('content')
+    <h2 class="mb-4">Stands approuvés</h2>
+    <div class="row">
+        @foreach($stands as $stand)
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ $stand->image ?? 'https://via.placeholder.com/300x150' }}" class="card-img-top" alt="stand image">
+                <div class="card-body">
+                    <h5 class="card-title">{{ $stand->nom_entreprise }}</h5>
+                    <p class="card-text">{{ $stand->description ?? 'Pas de description.' }}</p>
+                    <a href="{{ route('admin.commandes', $stand->id) }}" class="btn btn-outline-primary">Voir commandes</a>
                 </div>
             </div>
         </div>
+        @endforeach
     </div>
-</body>
-</html>
+@endsection
