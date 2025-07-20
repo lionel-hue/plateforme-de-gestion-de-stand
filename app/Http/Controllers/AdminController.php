@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequestMail;
+use App\Models\Commande;
+use App\Models\Stand;
 
 class AdminController extends Controller
 {
@@ -14,7 +16,7 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
-    public function demande(){
+    public function demandes(){
         $demandes = User::where('role', 'entrepreneur_en_attente')->get();
         return view('admin.demandes', compact('demandes'));
     }
@@ -50,7 +52,8 @@ class AdminController extends Controller
     }
 
     public function commandesParStand($id) {
-        //$commandes = Commande::whereJsonContains('details->user_id', $id)->get();
-        return view('admin.commandes', compact('commandes'));
+        $commandes = Commande::whereJsonContains('details_commande->user_id', $id)->get();
+        $stand = User::findOrFail($id);
+        return view('admin.commandes', compact('commandes', 'stand'));
     }
 }
