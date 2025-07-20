@@ -3,8 +3,19 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AcceuilController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminAuthController;
 
 Route::get('/', [AcceuilController::class, 'index'])->name('acceuil');
+
+
+
+//Auth Admin
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [AdminAuthController::class, 'login']);
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+});
+
 
 
 //routes Admin
