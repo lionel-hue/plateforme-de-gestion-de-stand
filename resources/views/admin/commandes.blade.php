@@ -1,23 +1,29 @@
-<html>
-<head>
-    <title>Plateforme de gestion de stand</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</head>
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="text-center">Plateforme de gestion de stand</h2>
-                    </div>
-                    <div class="card-body">
-                        <p class="text-center">Plateforme de gestion de stand</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>
+@extends('components.aut-layout')
+
+@section('title', 'commandes par stands')
+
+@section('content')
+    <h2 class="mb-4">Commandes pour {{ $stand->nom_entreprise }}</h2>
+    <table class="table table-hover table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Total</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($commandes as $commande)
+            <tr>
+                <td>{{ $commande->id }}</td>
+                <td>{{ $commande->produit->nom }}</td>
+                <td>{{ $commande->quantite }}</td>
+                <td>{{ number_format($commande->total, 2) }} €</td>
+                <td>{{ $commande->created_at->format('d/m/Y H:i') }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+@endsection
