@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+<!DOCTYPE html data-bs-theme="{{ session('theme', 'light') }}>
 <html lang="fr">
 <head>
-    <title>@yield('title')</title>
+    <title>@yield('title') | Eat&Drink</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}">
@@ -34,6 +34,12 @@
         </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold text-success" href="{{ route('accueil') }}">Eat&Drink</a>
+        </div>
+    </nav>
+
     <div class="container">
         @yield('content')
     </div>
