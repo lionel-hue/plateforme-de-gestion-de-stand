@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'entrepreneur' => [
+            'driver' => 'session',
+            'provider' => 'entrepreneurs',
+        ],
     ],
 
     /*
@@ -63,6 +67,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+        'entrepreneurs' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Entrepreneur::class,
         ],
 
         // 'users' => [
