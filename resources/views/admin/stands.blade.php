@@ -8,7 +8,7 @@
 @section('content')
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand text-danger fw-bold" href="#">Eat&Drink Admin</a>
+        <a class="navbar-brand text-danger fw-bold" href="{{route ('accueil')}}">Eat&Drink Admin</a>
         <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">

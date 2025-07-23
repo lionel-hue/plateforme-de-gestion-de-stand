@@ -34,12 +34,6 @@
         </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold text-success" href="{{ route('accueil') }}">Eat&Drink</a>
-        </div>
-    </nav>
-
     <div class="container">
         @yield('content')
     </div>
