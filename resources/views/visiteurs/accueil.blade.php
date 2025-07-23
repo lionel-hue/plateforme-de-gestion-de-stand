@@ -3,6 +3,6 @@
 @section('title', 'Accueil')
 
 @section('css')
-
+    
 @endsection
 

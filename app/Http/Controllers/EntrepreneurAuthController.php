@@ -35,13 +35,13 @@ class EntrepreneurAuthController extends Controller
         }
 
         $user = User::create([
-            'name'=> $request['nom_entreprise'],
+            'nom_entreprise'=> $request['nom_entreprise'],
             'email'=> $request['email'],
             'password'=> Hash::make($request['password']),
-            'role'=> 'entrepreneur_waiting_approval',
-            'status'=> 'waiting',
+            'role'=> 'entrepreneur_en_attente',
+            'status'=> 'en_attente',
         ]);
-
+        $user->save();  
         // Log the entrepreneur in
         Auth::guard('entrepreneur')->login($user);
 
@@ -70,10 +70,10 @@ class EntrepreneurAuthController extends Controller
             $user = Auth::guard('entrepreneur')->user();
             
             // Check if entrepreneur is rejected
-            if ($user->isRejected()) {
+            if ($user->status == 'refuse') {
                 Auth::guard('entrepreneur')->logout();
                 return redirect()->back()->withErrors([
-                    'email' => 'Your account has been rejected. Reason: ' . $user->rejection_reason
+                    'email' => 'Your account has been rejected. Reason: ' . $user->raison_rejet
                 ]);
             }
 

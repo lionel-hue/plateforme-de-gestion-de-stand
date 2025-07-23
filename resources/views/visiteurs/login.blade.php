@@ -418,9 +418,9 @@
                                     </div>
                                 </div>
                                 
-                                <button type="submit" class="btn btn-login mb-4">
+                                <a href="{{ route('submitLogin') }}" class="btn btn-login mb-4">
                                     <i class="fas fa-sign-in-alt me-2"></i> Se connecter
-                                </button>
+                                </a>
                                 
                                 <div class="social-login mb-4">
                                     <span class="text-muted">Ou connectez-vous avec</span>

@@ -11,6 +11,6 @@
     <a href="{{ route('register') }}">S'inscrire</a>
     <a href="{{ route('stand') }}">Voir les stands</a>
     <a href="{{ route('entrepreneur.register') }}">S'inscrire en tant qu'entrepreneur</a>
-    
+    <a href="{{ route('admin.login') }}">Se connecter en tant qu'admin</a>
 </body>
 </html>

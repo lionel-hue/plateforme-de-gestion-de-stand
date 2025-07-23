@@ -22,13 +22,15 @@ class VisiteurAuthController extends Controller
     {
         $validatedData = $request->validated();
 
-        User::create([
+        $user = User::create([
             'first_name' => $validatedData['first_name'],
             'last_name'  => $validatedData['last_name'],
             'phone'      => $validatedData['phone'],
             'email'      => $validatedData['email'],
             'password'   => Hash::make($validatedData['password']),
         ]);
+
+        $user->save();
 
         return redirect()->route('login')->with('success', 'Inscription réussie ! Connectez-vous.');
     }

@@ -190,26 +190,26 @@
                             
                             <form id="registration-form">
                                 <div class="mb-3">
-                                    <label for="enterprise-name" class="form-label">Nom de l'entreprise <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="enterprise-name" required>
+                                    <label for="nom_entreprise" class="form-label">Nom de l'entreprise <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="nom_entreprise" name="nom_entreprise" required>
                                     <div class="invalid-feedback">Veuillez entrer le nom de votre entreprise</div>
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" id="email" required>
+                                    <input type="email" class="form-control" id="email" name="email" required>
                                     <div class="invalid-feedback">Veuillez entrer une adresse email valide</div>
                                 </div>
                                 
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="password" class="form-label">Mot de passe <span class="text-danger">*</span></label>
-                                        <input type="password" class="form-control" id="password" required>
+                                        <input type="password" class="form-control" id="password" name="password" required>
                                         <div class="invalid-feedback">Le mot de passe doit contenir au moins 8 caractères</div>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="confirm-password" class="form-label">Confirmer le mot de passe <span class="text-danger">*</span></label>
-                                        <input type="password" class="form-control" id="confirm-password" required>
+                                        <input type="password" class="form-control" id="confirm-password" name="confirm-password" required>
                                         <div class="invalid-feedback">Les mots de passe ne correspondent pas</div>
                                     </div>
                                 </div>

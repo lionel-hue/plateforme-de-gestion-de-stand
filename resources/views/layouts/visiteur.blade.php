@@ -323,7 +323,7 @@
 </head>
 <body>
     <div class="hero-bg"></div>
- 
+
     <header class="site-header">
         <nav class="nav-bar">
             <a href="{{ route('accueil') }}" class="logo">Eat<span>&</span>Drink</a>
@@ -333,13 +333,15 @@
                 <span></span>
                 <span></span>
             </div>
-            
-            <div class="nav-links" id="navLinks">
-                <a href="{{ route('evènement') }}">Programme</a>
-                <a href="{{ route('stand') }}">Voir les stands</a>
-                <a href="{{ route('login') }}">Se connecter</a>
-                <a href="{{ route('visiteur.register') }}">S'inscrire</a>
-                <a href="{{ route('entrepreneur.register') }}">Espace Entrepreneur</a>
+            <div class="nav-links row " id="navLinks">
+                <div class="nav-links" id="navLinks">
+                    <a href="{{ route('evènement') }}">Programme</a>
+                    <a href="{{ route('stand') }}">Voir les stands</a>
+                    <a href="{{ route('login') }}">Se connecter</a>
+                    <a href="{{ route('visiteur.register') }}">S'inscrire</a>
+                    <a href="{{ route('entrepreneur.register') }}">Espace Entrepreneur</a>
+                    <a href="{{ route('login') }}">Se connecter en tant qu'admin</a>
+            </div>
             </div>
         </nav>
     </header>

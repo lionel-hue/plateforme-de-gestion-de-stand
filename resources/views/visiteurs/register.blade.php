@@ -302,7 +302,7 @@
                         <a class="nav-link" href="{{ route('evènement') }}">Programme</a>
                     </li>
                     <li class="nav-item ms-lg-3">
-                        <a class="btn btn-outline-danger" href="{{ route('login') }}">Connexion</a>
+                        <a class="btn btn-outline-danger" href="{{ route('visiteurs.login') }}">Connexion</a>
                     </li>
                 </ul>
             </div>
@@ -355,8 +355,7 @@
                                     <label for="phone" class="form-label">Téléphone <span class="text-danger">*</span></label>
                                     <input type="tel" class="form-control" id="phone" required>
                                     <div class="invalid-feedback">Veuillez entrer un numéro de téléphone valide</div>
-                                </div>
-                                
+                                </div>                                
                                 <div class="row">
                                     <div class="col-md-6 mb-4">
                                         <label for="password" class="form-label">Mot de passe <span class="text-danger">*</span></label>
@@ -392,9 +391,9 @@
                                     <div class="invalid-feedback">Vous devez accepter les conditions</div>
                                 </div>
                                 
-                                <button type="submit" class="btn btn-register mb-4 animate__animated animate__pulse animate__infinite animate__slower">
+                                <a href="{{ route('visiteur.register') }}" class="btn btn-register mb-4 animate__animated animate__pulse animate__infinite animate__slower">
                                     <i class="fas fa-user-plus me-2"></i> S'inscrire maintenant
-                                </button>
+                                </a>
                                 
                                 <div class="text-center pt-3 border-top">
                                     <p class="mb-0">
