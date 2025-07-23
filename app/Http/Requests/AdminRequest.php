@@ -29,8 +29,4 @@ class AdminRequest extends FormRequest
             'password_confirmation' => ['required', 'string', 'min:8', 'max:255', 'same:password'],
         ];
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> f962611fdb400e91ba0fc7842b0a9eb1546c9d6c
