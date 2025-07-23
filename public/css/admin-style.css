@@ -1,0 +1,70 @@
+/* admin-style.css - Eat&Drink Admin Theme */
+
+/* --- Fond et couleurs principales --- */
+body {
+    background-color: #fff9f3; /* beige clair festif */
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* --- Cartes et composants --- */
+.card {
+    border-radius: 1rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(255, 157, 0, 0.1);
+}
+
+.bg-warning-subtle {
+    background-color: #fff4cd !important;
+}
+
+.bg-success-subtle {
+    background-color: #d9f5e4 !important;
+}
+
+.bg-primary-subtle {
+    background-color: #d8e9ff !important;
+}
+
+/* --- Titres festifs --- */
+h1, h2, h5 {
+    font-weight: 700;
+}
+
+/* --- Toast --- */
+.toast {
+    border-radius: 1rem;
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+/* --- Boutons festifs --- */
+.btn-outline-success:hover {
+    background-color: #198754;
+    color: white;
+}
+
+/* --- Inputs stylisés --- */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    border-radius: 0.75rem;
+}
+
+/* --- Footer ou signature illustrée --- */
+.footer-fun {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+    margin-top: 3rem;
+    padding: 1rem;
+}
+
+/* --- Icônes améliorées --- */
+.bi {
+    vertical-align: middle;
+    margin-right: 0.3rem;
+    opacity: 0.85;
+}
