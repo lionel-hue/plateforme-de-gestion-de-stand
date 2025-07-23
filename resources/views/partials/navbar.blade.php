@@ -33,6 +33,6 @@
                     </form>
                 </li>
             </ul>
-x²        </div>
+        </div>
     </div>
 </nav>
