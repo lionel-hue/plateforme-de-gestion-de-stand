@@ -13,14 +13,21 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('phone');
+            $table->string('nom_entreprise')->default('Aucune entreprise');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', ['admin', 'entrepreneur_en_attente', 'entrepreneur_approuve', 'entrepreneur_refuse']);//->default('entrepreneur_en_attente');
+            $table->enum('status', ['en_attente', 'approuve', 'refuse']);
+            $table->text('raison_rejet')->nullable();
+            $table->string('token')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
-
+        
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
