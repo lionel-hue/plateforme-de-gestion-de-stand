@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> f962611fdb400e91ba0fc7842b0a9eb1546c9d6c
 @props(['label' => '',
 'name' => '',
 'type' => '',
@@ -13,8 +9,4 @@
     @error($name)
         <small class="text-danger">{{ $message }}</small>
     @enderror
-<<<<<<< HEAD
 </div>
-=======
-</div>
->>>>>>> f962611fdb400e91ba0fc7842b0a9eb1546c9d6c

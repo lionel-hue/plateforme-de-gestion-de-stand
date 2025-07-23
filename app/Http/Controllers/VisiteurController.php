@@ -16,21 +16,4 @@ class VisiteurController extends Controller
         return view('visiteurs.stand'); // Assurez-vous d'avoir cette vue
     }
 
-    /*
-
-    public function standWithId($id)
-    {
-        return view('visiteurs.stand', ['id' => $id]);
-    }
-
-    public function exposants()
-    {
-        return view('visiteurs.exposants');
-    }
-
-    public function panier()
-    {
-        return view('visiteurs.panier');
-    }
-    */
 }

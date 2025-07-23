@@ -16,5 +16,5 @@ Retour à l'accueil
 </x-mail::button>
 
 Merci de votre compréhension,  
-**L’équipe Eat&Drink**
+**L'équipe Eat&Drink**
 </x-mail::message>
