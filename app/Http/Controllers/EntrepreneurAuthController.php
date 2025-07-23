@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Entrepreneur;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserLoginRequest;
 
 class EntrepreneurAuthController extends Controller
 {
@@ -22,13 +24,9 @@ class EntrepreneurAuthController extends Controller
     /**
      * Handle registration
      */
-    public function register(Request $request)
+    public function register(UserRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'enterprise_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:entrepreneurs',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+        $validator = $request->validated();
 
         if ($validator->fails()) {
             return redirect()->back()
@@ -36,16 +34,16 @@ class EntrepreneurAuthController extends Controller
                 ->withInput();
         }
 
-        $entrepreneur = Entrepreneur::create([
-            'enterprise_name' => $request->enterprise_name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'entrepreneur_waiting_approval',
-            'status' => 'waiting',
+        $user = User::create([
+            'name'=> $request['nom_entreprise'],
+            'email'=> $request['email'],
+            'password'=> Hash::make($request['password']),
+            'role'=> 'entrepreneur_waiting_approval',
+            'status'=> 'waiting',
         ]);
 
         // Log the entrepreneur in
-        Auth::guard('entrepreneur')->login($entrepreneur);
+        Auth::guard('entrepreneur')->login($user);
 
         return redirect()->route('entrepreneur.dashboard')
             ->with('success', 'Registration successful! Your account is pending approval.');
@@ -62,31 +60,28 @@ class EntrepreneurAuthController extends Controller
     /**
      * Handle login
      */
-    public function login(Request $request)
+    public function login(UserLoginRequest $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        $credentials = $request->validated();
 
         if (Auth::guard('entrepreneur')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
             
-            $entrepreneur = Auth::guard('entrepreneur')->user();
+            $user = Auth::guard('entrepreneur')->user();
             
             // Check if entrepreneur is rejected
-            if ($entrepreneur->isRejected()) {
+            if ($user->isRejected()) {
                 Auth::guard('entrepreneur')->logout();
                 return redirect()->back()->withErrors([
-                    'email' => 'Your account has been rejected. Reason: ' . $entrepreneur->rejection_reason
+                    'email' => 'Your account has been rejected. Reason: ' . $user->rejection_reason
                 ]);
             }
-            
+
             return redirect()->intended(route('entrepreneur.dashboard'));
         }
 
         throw ValidationException::withMessages([
-            'email' => __('auth.failed'),
+            'email' => 'auth.failed',
         ]);
     }
 

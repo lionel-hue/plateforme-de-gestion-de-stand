@@ -4,24 +4,33 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Produit;  
+use App\Models\Stand;
+use App\Models\Commande;  
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Rule;
+use App\Http\Requests\EntrepreneurRequeust;
 
 class EntrepreneurController extends Controller
 {
 
     public function dashboard()
     {
-        $user = Auth::user();
+        $stand = Auth::stand();
 
-        $produits = Produit::where('user_id', $user->id)->get();
+        $produits = Produit::where('stand_id', $stand->id)->get();
 
         return view('entrepreneur.dashboard', compact('produits'));
     }
 
     public function listeProduits()
     {
-        $user = Auth::user();
-        $produits = Produit::where('user_id', $user->id)->get();
+        $stand = Auth::stand();
+        $produits = Produit::where('stand_id', $stand->id)->get();
 
         return view('entrepreneur.produits.index', compact('produits'));
     }
@@ -30,23 +39,18 @@ class EntrepreneurController extends Controller
     {
         return view('entrepreneur.produits.create');
     }
-    public function sauvegarderProduit(Request $request)
+    public function sauvegarderProduit(EntrepreneurRequeust $request)
     {
-        $request->validate([
-            'nom' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'prix' => 'required|numeric|min:0',
-            'image' => 'nullable|image|max:2048',
-        ]);
+        $validatedData = $request->validated();
 
         $produit = new Produit();
-        $produit->user_id = Auth::id();
-        $produit->nom = $request->nom;
-        $produit->description = $request->description;
-        $produit->prix = $request->prix;
+        $produit->stand_id = Auth::id();
+        $produit->nom = $validatedData['nom'];
+        $produit->description = $validatedData['description'];
+        $produit->prix = $validatedData['prix'];
 
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('produits', 'public');
+        if ($request->hasFile('image_url')) {
+            $path = $request->file('image_url')->store('produits', 'public');
             $produit->image_url = $path;
         }
 
@@ -55,30 +59,30 @@ class EntrepreneurController extends Controller
         return redirect()->route('entrepreneur.produits')->with('success', 'Produit créé avec succès.');
     }
 
-    public function modifierProduit($id)
+    
+    public function modifierProduit(EntrepreneurRequeust $request, $id)
     {
-        $produit = Produit::where('user_id', Auth::id())->findOrFail($id);
+        $produit = Produit::where('stand_id', Auth::id())->findOrFail($id);
 
         return view('entrepreneur.produits.edit', compact('produit'));
     }
 
-    public function mettreAJourProduit(Request $request, $id)
+    /**
+ * @param \App\Http\Requests\EntrepreneurRequeust $request
+ */
+    public function mettreAJourProduit(EntrepreneurRequeust $request, $id)
     {
-        $produit = Produit::where('user_id', Auth::id())->findOrFail($id);
+        $produit = Produit::where('stand_id', Auth::id())->findOrFail($id);
 
-        $request->validate([
-            'nom' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'prix' => 'required|numeric|min:0',
-            'image' => 'nullable|image|max:2048',
-        ]);
+        $validatedData = $request->validated();
 
-        $produit->nom = $request->nom;
-        $produit->description = $request->description;
-        $produit->prix = $request->prix;
+        $produit->nom = $validatedData['nom'];
+        $produit->description = $validatedData['description'];
+        $produit->prix = $validatedData['prix'];
+        $produit->image_url = $validatedData['image_url'];
 
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('produits', 'public');
+        if ($request->hasFile('image_url')) {
+            $path = $request->file('image_url')->store('produits', 'public');
             $produit->image_url = $path;
         }
 
@@ -87,10 +91,12 @@ class EntrepreneurController extends Controller
         return redirect()->route('entrepreneur.produits')->with('success', 'Produit mis à jour avec succès.');
     }
 
-    
-    public function supprimerProduit($id)
+    /**
+ * @param \App\Http\Requests\EntrepreneurRequeust $request
+ */
+    public function supprimerProduit(EntrepreneurRequeust $request, $id)
     {
-        $produit = Produit::where('user_id', Auth::id())->findOrFail($id);
+        $produit = Produit::where('stand_id', Auth::id())->findOrFail($id);
         $produit->delete();
 
         return redirect()->route('entrepreneur.produits')->with('success', 'Produit supprimé.');

@@ -7,44 +7,48 @@ use Illuminate\Support\Facades\Auth;
 
 class EntrepreneurDashboardController extends Controller
 {
-    // Middleware is handled in routes/web.php
-
     /**
-     * Show the entrepreneur dashboard
+     * Affiche le tableau de bord de l'entrepreneur
      */
     public function index()
     {
         $entrepreneur = Auth::guard('entrepreneur')->user();
-        
-        // For now, we'll return basic dashboard data
-        // Later we'll add products and orders statistics
+
         $data = [
             'entrepreneur' => $entrepreneur,
-            'totalProducts' => 0, // Will be updated when we create products table
-            'totalOrders' => 0,   // Will be updated when we create orders table
-            'pendingOrders' => 0, // Will be updated when we create orders table
+            'totalProducts' => 0, // À remplacer plus tard par un vrai décompte
+            'totalOrders' => 0,
+            'pendingOrders' => 0,
         ];
-        
+
         return view('entrepreneur.dashboard', $data);
     }
 
     /**
-     * Show product management page
+     * Alias de index() si tu veux accéder à la méthode dashboard()
+     */
+    public function dashboard()
+    {
+        return $this->index(); // Réutilise la méthode index()
+    }
+
+    /**
+     * Page de gestion des produits
      */
     public function products()
     {
         $entrepreneur = Auth::guard('entrepreneur')->user();
-        
+
         return view('entrepreneur.products', compact('entrepreneur'));
     }
 
     /**
-     * Show order consultation page
+     * Page de consultation des commandes
      */
     public function orders()
     {
         $entrepreneur = Auth::guard('entrepreneur')->user();
-        
+
         return view('entrepreneur.orders', compact('entrepreneur'));
     }
 }
