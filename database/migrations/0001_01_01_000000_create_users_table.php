@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role', ['admin', 'entrepreneur_en_attente', 'entrepreneur_approuve', 'entrepreneur_refuse']);//->default('entrepreneur_en_attente');
-            $table->string('status')->default('en_attente');
+            $table->enum('status', ['en_attente', 'approuve', 'refuse']);
             $table->text('raison_rejet')->nullable();
             $table->string('token')->nullable();
             $table->rememberToken();
