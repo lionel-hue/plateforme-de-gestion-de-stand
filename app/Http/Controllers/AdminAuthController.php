@@ -41,6 +41,7 @@ class AdminAuthController extends Controller
             'token' => Str::random(60),
             'role' => 'admin',
         ]);
+        $user->save();
         Auth::login($user);
         return redirect()->route('dashboard')->with('success', 'Compte admin créé.');
     }
@@ -51,4 +52,4 @@ class AdminAuthController extends Controller
         $request->session()->regenerateToken();
         return redirect()->route('login')->with('success', 'Vous avez été déconnecté.');
     }
-}
+} 

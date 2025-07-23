@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> f962611fdb400e91ba0fc7842b0a9eb1546c9d6c
 <nav class="navbar navbar-expand-lg {{ session('theme') === 'dark' ? 'navbar-dark bg-dark' : 'navbar-light bg-light' }} shadow-sm transition-fade">
     <div class="container-fluid">
         <a class="navbar-brand fw-bold {{ session('theme') === 'dark' ? 'text-warning' : 'text-danger' }}" href="#">Eat&Drink Admin</a>

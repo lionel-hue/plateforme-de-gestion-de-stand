@@ -56,4 +56,8 @@ class AdminController extends Controller
         $stand = User::findOrFail($id);
         return view('admin.commandes', compact('commandes', 'stand'));
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> f962611fdb400e91ba0fc7842b0a9eb1546c9d6c
