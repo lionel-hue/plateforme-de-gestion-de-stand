@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('produits', function (Blueprint $table) {
             $table->id();
+            $table->string('nom_produit');
+            $table->string('description');
+            $table->string('prix');
+            $table->string('image_url')->nullable();
+            $table->enum('status', ['disponible', 'reserve', 'non_disponible'])->default('disponible');
+            $table->foreignId('stand_id')->constrained('stands')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -25,3 +31,4 @@ return new class extends Migration
         Schema::dropIfExists('products');
     }
 };
+

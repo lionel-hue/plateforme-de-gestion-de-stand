@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stands', function (Blueprint $table) {
+                Schema::create('stands', function (Blueprint $table) {
             $table->id();
-            $table->string('stand_name');
-            $table->text('description');
-            $table->foreignId('user_id')->constrained('entrepreneurs')->onDelete('cascade');
+            $table->string('nom_stand');
+            $table->string('description');
+            $table->string('prix');
+            $table->string('image')->nullable();
+            $table->enum('status', ['disponible', 'reserve', 'non_disponible'])->default('disponible');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }

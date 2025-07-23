@@ -1,37 +1,46 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\VisiteurController;
 use App\Http\Controllers\EntrepreneurAuthController;
+use App\Http\Controllers\VisiteurAuthController;
+use App\Http\Controllers\StandController;
 use App\Http\Controllers\EntrepreneurDashboardController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [VisiteurController::class, 'index'])->name('accueil');
 
-Route::get("/hello", function () {
-    return "<button>hehehe</button>";
-});
+Route::get('/stand', [VisiteurController::class, 'stand'])->name('stand');
 
-// Test route for debugging
-Route::get('/test-register', function () {
-    return '<h1>Test Registration Page</h1><p>This is a simple test without views</p>';
-});
+Route::get('/register/entrepreneur', [EntrepreneurAuthController::class, 'showRegistrationForm'])
+    ->name('entrepreneur.register');
+Route::post('/register/entrepreneur', [EntrepreneurAuthController::class, 'register']);
 
-// Entrepreneur Authentication Routes
-Route::prefix('entrepreneur')->name('entrepreneur.')->group(function () {
-    // Guest routes (not authenticated) - temporarily removing middleware for debugging
-    // Route::middleware('guest:entrepreneur')->group(function () {
-        Route::get('/register', [EntrepreneurAuthController::class, 'showRegistrationForm'])->name('register');
-        Route::post('/register', [EntrepreneurAuthController::class, 'register']);
-        Route::get('/login', [EntrepreneurAuthController::class, 'showLoginForm'])->name('login');
-        Route::post('/login', [EntrepreneurAuthController::class, 'login']);
-    // });
-    
-    // Authenticated routes
-    Route::middleware('auth:entrepreneur')->group(function () {
-        Route::get('/dashboard', [EntrepreneurDashboardController::class, 'index'])->name('dashboard');
-        Route::get('/products', [EntrepreneurDashboardController::class, 'products'])->name('products');
-        Route::get('/orders', [EntrepreneurDashboardController::class, 'orders'])->name('orders');
-        Route::post('/logout', [EntrepreneurAuthController::class, 'logout'])->name('logout');
-    });
+Route::get('/login/entrepreneur', [EntrepreneurAuthController::class, 'showLoginForm'])
+    ->name('entrepreneur.login');
+Route::post('/login/entrepreneur', [EntrepreneurAuthController::class, 'login']);
+
+Route::get('/dashboard/entrepreneur', [EntrepreneurDashboardController::class, 'dashboard'])
+    ->name('entrepreneur.dashboard');
+
+Route::get('/visiteur/register', [VisiteurAuthController::class, 'showRegisterForm'])->name('visiteur.register');
+Route::post('/visiteur/register', [VisiteurAuthController::class, 'register']);
+
+
+// Connexion
+Route::get('/visiteur/login', [VisiteurAuthController::class, 'showLogin'])->name('login');
+Route::post('/visiteur/login', [VisiteurAuthController::class, 'submitLogin']);
+
+
+Route::get('/panier', [StandController::class, 'index'])->name('panier');
+Route::get('/evènement', [StandController::class, 'evènement'])->name('evènement');
+
+
+/*
+Route::prefix('visiteurs')->group(function () {
+    Route::get('/accueil', [VisiteurController::class, 'accueil'])->name('visiteurs.accueil');
+    Route::get('/exposants', [VisiteurController::class, 'exposants'])->name('visiteurs.exposants');
+    Route::get('/panier', [VisiteurController::class, 'panier'])->name('visiteurs.panier');
 });
+*/
+
+// Route::get('/stand/{id?}', [VisiteurController::class, 'stand'])->name('stand');
