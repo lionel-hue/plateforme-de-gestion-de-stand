@@ -59,7 +59,7 @@ Route::prefix('admin')->group(function () {
 
 //routes protege Admin
 Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard/{id}', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/demandes', [AdminController::class, 'demandes'])->name('demandes');
     Route::post('/demandes/{id}/approuver', [AdminController::class, 'approuver'])->name('approuver');
     Route::post('/demandes/{id}/rejetter', [AdminController::class, 'rejetter']);

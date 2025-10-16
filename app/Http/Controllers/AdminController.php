@@ -16,11 +16,11 @@ class AdminController extends Controller
     /**
      * Affiche le tableau de bord de l'admin
      */
-    public function dashboard(String $id){
+    public function dashboard(){
         //Recupere le  nombre de demandes en attente, le nombre de stands approuves, le nombre de commandes par stand
         $demandesEnAttente = Entrepreneur::where('status', 'en_attente')->count();
         $standsApprouves = Entrepreneur::where('status', 'approuve')->count();
-        $commandesParStand = Commande::whereJsonContains('details_commande->stand_id', $id)->get();
+        $commandesParStand = Commande::all();
 
         //Affiche la statistique sur le dashboard
         return view('admin.dashboard', compact('demandesEnAttente', 'standsApprouves', 'commandesParStand'));

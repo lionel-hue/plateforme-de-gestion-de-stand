@@ -22,7 +22,7 @@ class AdminRequestLogin extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email', 'exists:admins,email'],
+            'email' => ['required', 'email', 'exists:users,email'],
             'password' => ['required', 'string', 'min:8', 'max:255'],
         ];
     }
