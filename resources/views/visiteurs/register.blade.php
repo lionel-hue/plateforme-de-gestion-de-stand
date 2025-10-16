@@ -398,7 +398,7 @@
                                 <div class="text-center pt-3 border-top">
                                     <p class="mb-0">
                                         Vous avez déjà un compte ?
-                                        <a href="{{ route('login') }}" class="login-link">Connectez-vous ici</a>
+                                        <a href="{{ route('visiteurs.login') }}" class="login-link">Connectez-vous ici</a>
                                     </p>
                                 </div>
                             </form>

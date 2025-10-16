@@ -12,6 +12,7 @@ class EntrepreneurDashboardController extends Controller
      */
     public function index()
     {
+        //Recuparion de l'entrepreneur
         $entrepreneur = Auth::guard('entrepreneur')->user();
 
         $data = [
@@ -37,6 +38,7 @@ class EntrepreneurDashboardController extends Controller
      */
     public function products()
     {
+        //Recuperation de l'entrepreneur 
         $entrepreneur = Auth::guard('entrepreneur')->user();
 
         return view('entrepreneur.products', compact('entrepreneur'));
@@ -47,8 +49,37 @@ class EntrepreneurDashboardController extends Controller
      */
     public function orders()
     {
+        //Recuperation de l'entrepreneur 
         $entrepreneur = Auth::guard('entrepreneur')->user();
 
         return view('entrepreneur.orders', compact('entrepreneur'));
+    }
+
+    /**
+     * Page de statistique
+     */
+    public function statistique()
+    {
+        //Recuperation de l'entrepreneur 
+        $entrepreneur = Auth::guard('entrepreneur')->user();
+
+        return view('entrepreneur.statistique', compact('entrepreneur'));
+    }
+
+    /**
+     * Page de creation d'un produit
+     */
+    public function addProduct() {
+        $entrepreneur = Auth::guard('entrepreneur')->user();
+
+        return view('entrepreneur.add_product', compact('entrepreneur'));
+    }
+
+    /**
+     * Deconnexion de l'entrepreneur
+     */
+    public function logout() {
+        Auth::guard('entrepreneur')->logout();
+        return redirect()->route('accueil');
     }
 }

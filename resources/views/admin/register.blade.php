@@ -23,15 +23,12 @@
                 @error('password_confirmation')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
-                <x-input label="role" name="role" type="text" placeholder="role"/>
-                @error('role')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
+
             <button type="submit" class="btn btn-primary">S'inscrire</button>
         </form>
         <p class="mt-4 text-center">
             déjà un compte ? se connecter
-            <a href="{{ route ('login') }}" class="btn btn-secondary">Retour</a>
+            <a href="{{ route ('admin.login') }}" class="btn btn-secondary">Retour</a>
         </p>
     </div>
 @endsection

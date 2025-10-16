@@ -340,7 +340,7 @@
                     <a href="{{ route('login') }}">Se connecter</a>
                     <a href="{{ route('visiteur.register') }}">S'inscrire</a>
                     <a href="{{ route('entrepreneur.register') }}">Espace Entrepreneur</a>
-                    <a href="{{ route('login') }}">Se connecter en tant qu'admin</a>
+                    <!--<a href="#"></a>-->
             </div>
             </div>
         </nav>

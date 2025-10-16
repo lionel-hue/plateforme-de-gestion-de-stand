@@ -17,9 +17,5 @@
             @enderror
         <button type="submit" class="btn btn-primary">Se connecter</button>
     </form>
-    <p class="mt-4 text-center">
-        pas de compte ? se connecter
-        <a href="{{ route ('register') }}" class="btn btn-secondary">S'inscrire</a>
-    </p>
 </div>
 @endsection

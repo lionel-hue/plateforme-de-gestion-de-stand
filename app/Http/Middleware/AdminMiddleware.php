@@ -6,8 +6,9 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Configuration\Middleware;
 
-class AdminMiddleware
+class AdminMiddleware extends Middleware
 {
     /**
      * Handle an incoming request.
@@ -17,7 +18,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
-        if (Auth::check() && Auth::user()->role === 'admin')
+        if (Auth::guard('admin')->check())
         return $next($request);
         
         return redirect()->route('accueil');

@@ -8,16 +8,16 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\User;
+use App\Models\Entrepreneur;
 
 class RequestMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
-    private User $user;
+    private Entrepreneur $user;
     /**
      * Create a new message instance.
      */
-    public function __construct(User $user)
+    public function __construct(Entrepreneur $user)
     {
         $this->user = $user;
     }
@@ -40,7 +40,7 @@ class RequestMail extends Mailable implements ShouldQueue
         return new Content(
             markdown: 'mail.email-request',
             with: [
-                'name' => $this->user->name,
+                'name' => $this->user->nom_entreprise,
                 'email' => $this->user->email,
                 'role' => $this->user->role,
                 'raison_rejet' => $this->user->raison_rejet,

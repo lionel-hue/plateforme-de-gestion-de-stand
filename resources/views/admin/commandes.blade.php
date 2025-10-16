@@ -20,10 +20,10 @@
                     <a class="nav-link" href="{{ route('stands') }}">Stands</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('commandes', ['id' => Auth::user()->id]) }}">Commandes</a>
+                    <a class="nav-link" href="{{ route('commandes', ['id' => Auth::guard('admin')->user()->id]) }}">Commandes</a>
                 </li>
                 <li class="nav-item">
-                    <form method="POST" action="{{ route('logout') }}">
+                    <form method="POST" action="{{ route('admin.logout') }}">
                         @csrf
                         <button type="submit" class="btn btn-link nav-link text-danger">Déconnexion</button>
                     </form>
@@ -34,7 +34,7 @@
 </nav>
 
 <div class="bg-light rounded-4 shadow-sm p-4 mb-4">
-    <h2 class="text-primary"><i class="bi bi-cart4 me-2"></i>Commandes - {{ $stand->nom_entreprise }}</h2>
+    <h2 class="text-primary"><i class="bi bi-cart4 me-2"></i>Commandes du stand: {{ $stand->nom_stand }}</h2>
     <p class="text-muted">Historique des commandes reçues.</p>
 </div>
 <table class="table table-bordered table-striped">

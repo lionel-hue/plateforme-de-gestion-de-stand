@@ -22,8 +22,7 @@ class AdminRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nom_entreprise' => ['required', 'max:50'],
-            'email' => ['required', 'email', 'unique:users,email'],
+            'email' => ['required', 'email', 'unique:admins,email'],
             'password' => ['required', 'string', 'min:8', 'max:255'],
             'role' => ['required', 'string', 'min:5', 'max:255'],
             'password_confirmation' => ['required', 'string', 'min:8', 'max:255', 'same:password'],

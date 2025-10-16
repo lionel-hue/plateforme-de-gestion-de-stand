@@ -10,22 +10,25 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserLoginRequest;
+use App\Models\Entrepreneur;
 
 class EntrepreneurAuthController extends Controller
 {
     /**
-     * Show the registration form
+     * Affiche la page de registration
      */
     public function showRegistrationForm()
     {
+        //Affiche de la page de registration
         return view('auth.entrepreneur.register');
     }
 
     /**
-     * Handle registration
+     * Gestion de la registration
      */
     public function register(UserRequest $request)
     {
+        //Validation des données
         $validator = $request->validated();
 
         if ($validator->fails()) {
@@ -34,15 +37,15 @@ class EntrepreneurAuthController extends Controller
                 ->withInput();
         }
 
-        $user = User::create([
+        //Creation de l'entrepreneur
+        $user = Entrepreneur::create([
             'nom_entreprise'=> $request['nom_entreprise'],
             'email'=> $request['email'],
             'password'=> Hash::make($request['password']),
             'role'=> 'entrepreneur_en_attente',
             'status'=> 'en_attente',
         ]);
-        $user->save();  
-        // Log the entrepreneur in
+        // Connection de l'entrepreneur
         Auth::guard('entrepreneur')->login($user);
 
         return redirect()->route('entrepreneur.dashboard')
@@ -50,7 +53,7 @@ class EntrepreneurAuthController extends Controller
     }
 
     /**
-     * Show the login form
+     * Affiche la vue de login
      */
     public function showLoginForm()
     {
@@ -58,38 +61,40 @@ class EntrepreneurAuthController extends Controller
     }
 
     /**
-     * Handle login
+     * Gestion de la connection
      */
     public function login(UserLoginRequest $request)
     {
+        //Validation des données
         $credentials = $request->validated();
 
+        //Recuperation de l'entrepreneur
+        $user = Entrepreneur::where('email', $credentials['email'])->first();
+        
+        //Verification des identifiants
         if (Auth::guard('entrepreneur')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
             
-            $user = Auth::guard('entrepreneur')->user();
-            
-            // Check if entrepreneur is rejected
+            //Verification si l'entrepreneur est rejeté
             if ($user->status == 'refuse') {
                 Auth::guard('entrepreneur')->logout();
                 return redirect()->back()->withErrors([
                     'email' => 'Your account has been rejected. Reason: ' . $user->raison_rejet
                 ]);
             }
-
             return redirect()->intended(route('entrepreneur.dashboard'));
         }
-
-        throw ValidationException::withMessages([
-            'email' => 'auth.failed',
+        return back()->withErrors([
+            'email' => 'Identifiants invalides ou rôle non autorisé.',
         ]);
     }
 
     /**
-     * Handle logout
+     * Gestion du Logout
      */
     public function logout(Request $request)
     {
+        //Deconnection de l'entrepreneur
         Auth::guard('entrepreneur')->logout();
         
         $request->session()->invalidate();

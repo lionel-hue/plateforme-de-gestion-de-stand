@@ -53,8 +53,8 @@
                             <i class="fas fa-chevron-down text-sm"></i>
                         </button>
                         <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
-                            <form method="POST" action="/entrepreneur/logout">
-                                <input type="hidden" name="_token" value="[CSRF_TOKEN]">
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
                                 <button type="submit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">
                                     <i class="fas fa-sign-out-alt mr-2"></i> Déconnexion
                                 </button>
@@ -69,11 +69,11 @@
     <nav class="bg-white shadow-md">
         <div class="container mx-auto px-4">
             <div class="flex space-x-8">
-                <a href="{{ route('entrepreneur.dashboard') }}" class="py-4 px-2 text-gray-600 hover:text-red-600">Dashboard</a>
-                <a href="{{ route('entrepreneur.products') }}" class="py-4 px-2 text-gray-600 hover:text-red-600">Produits</a>
-                <a href="{{ route('entrepreneur.orders') }}" class="py-4 px-2 text-gray-600 hover:text-red-600">Commandes</a>
-                <a href="{{ route('entrepreneur.statistique') }}" class="py-4 px-2 active-nav">Statistiques</a>
-                <a href="{{ route('entrepreneur.settings') }}" class="py-4 px-2 text-gray-600 hover:text-red-600">Paramètres</a>
+                <a href="{{ route('dashboard') }}" class="py-4 px-2 text-gray-600 hover:text-red-600">Dashboard</a>
+                <a href="{{ route('products') }}" class="py-4 px-2 text-gray-600 hover:text-red-600">Produits</a>
+                <a href="{{ route('orders') }}" class="py-4 px-2 text-gray-600 hover:text-red-600">Commandes</a>
+                <a href="{{ route('statistique') }}" class="py-4 px-2 active-nav">Statistiques</a>
+                <a href="#" class="py-4 px-2 text-gray-600 hover:text-red-600">Paramètres</a>
             </div>
         </div>
     </nav>

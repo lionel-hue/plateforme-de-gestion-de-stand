@@ -20,16 +20,16 @@
     <header class="bg-white shadow-sm benin-flag">
         <div class="bg-white bg-opacity-90">
             <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-                <a href="/dashboard/entrepreneur" class="text-2xl font-bold text-red-600">Eat<span class="text-yellow-500">&</span>Drink</a>
+                <a href="{{ route('dashboard') }}" class="text-2xl font-bold text-red-600">Eat<span class="text-yellow-500">&</span>Drink</a>
                 <nav class="hidden md:flex space-x-8">
-                    <a href="/dashboard/entrepreneur" class="text-gray-700 hover:text-red-600">Dashboard</a>
-                    <a href="/entrepreneur/products" class="text-gray-700 hover:text-red-600">Products</a>
-                    <a href="/entrepreneur/orders" class="text-red-600 font-semibold">Orders</a>
+                    <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-red-600">Dashboard</a>
+                    <a href="{{ route('products') }}" class="text-gray-700 hover:text-red-600">Products</a>
+                    <a href="{{ route('orders') }}" class="text-red-600 font-semibold">Orders</a>
                 </nav>
                 <div class="flex items-center space-x-4">
                     <span class="text-gray-700">Welcome, Nom de l'Entreprise !</span>
-                    <form method="POST" action="/logout" class="inline">
-                        <input type="hidden" name="_token" value="CSRF_TOKEN_ICI">
+                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                        @csrf
                         <button type="submit" class="text-gray-700 hover:text-red-600">
                             <i class="fas fa-sign-out-alt"></i> Logout
                         </button>

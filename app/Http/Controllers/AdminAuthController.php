@@ -6,10 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\AdminRequest; 
-use App\Models\User;
 use Illuminate\Support\Str;
-use App\Http\Requests\AdminRequestLogin; 
-
+use App\Http\Requests\AdminRequestLogin;
+use App\Models\User;
 
 class AdminAuthController extends Controller
 {
@@ -19,7 +18,11 @@ class AdminAuthController extends Controller
 
     public function login(AdminRequestLogin $request){
         $credentials = $request->validated();
-        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password'], 'role' => 'admin'])) {
+        //Recuperer l'utilisateur admin avec le role admin
+        $admin = User::where('email', $credentials['email'])->first();
+        //Vérifier si l'utilisateur admin existe et si le mot de passe est correct
+        if ($admin && Hash::check($credentials['password'], $admin->password) && $admin->role === 'admin') {
+            Auth::guard('admin')->login($admin);
             $request->session()->regenerate();
             return redirect()->route('dashboard');
         }    
@@ -28,26 +31,11 @@ class AdminAuthController extends Controller
         ]);
     }
 
-    public function showRegisterForm(){
-        return view('admin.register');
-    }
-
-    public function register(AdminRequest $request){
-        $credentials = $request->validated();
-        $user = User::create([
-            'nom_entreprise' => $credentials['nom_entreprise'],
-            'email' => $credentials['email'],
-            'password' => Hash::make($credentials['password']),
-            'token' => Str::random(60),
-            'role' => 'admin',
-        ]);
-        $user->save();
-        Auth::login($user);
-        return redirect()->route('dashboard')->with('success', 'Compte admin créé.');
-    }
-
+    /**
+     *  Logout admin
+     */    
     public function logout(Request $request){
-        Auth::logout();
+        Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login')->with('success', 'Vous avez été déconnecté.');

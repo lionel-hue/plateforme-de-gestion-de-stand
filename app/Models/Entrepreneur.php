@@ -7,10 +7,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Stand;
+use Laravel\Sanctum\HasApiTokens;
 
 class Entrepreneur extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -18,12 +20,12 @@ class Entrepreneur extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'enterprise_name',
+        'nom_entreprise',
         'email',
         'password',
         'role',
         'status',
-        'rejection_reason',
+        'raison_rejet',
     ];
 
     /**
@@ -49,27 +51,8 @@ class Entrepreneur extends Authenticatable
         ];
     }
 
-    /**
-     * Check if entrepreneur is approved
-     */
-    public function isApproved(): bool
+    public function stand()
     {
-        return $this->status === 'accepted' && $this->role === 'entrepreneur_accepted_approval';
-    }
-
-    /**
-     * Check if entrepreneur is waiting for approval
-     */
-    public function isWaitingApproval(): bool
-    {
-        return $this->status === 'waiting';
-    }
-
-    /**
-     * Check if entrepreneur is rejected
-     */
-    public function isRejected(): bool
-    {
-        return $this->status === 'rejected';
+        return $this->hasMany(Stand::class);
     }
 }

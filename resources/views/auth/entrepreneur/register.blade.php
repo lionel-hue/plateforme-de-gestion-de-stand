@@ -188,34 +188,43 @@
                                 <ul class="mb-0" id="error-list"></ul>
                             </div>
                             
-                            <form id="registration-form">
+                            <form id="registration-form" methode = "POST" action = "{{ route('entre.register')}}">
+                                @csrf
                                 <div class="mb-3">
                                     <label for="nom_entreprise" class="form-label">Nom de l'entreprise <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="nom_entreprise" name="nom_entreprise" required>
-                                    <div class="invalid-feedback">Veuillez entrer le nom de votre entreprise</div>
+                                    @error('nom_entreprise')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                                     <input type="email" class="form-control" id="email" name="email" required>
-                                    <div class="invalid-feedback">Veuillez entrer une adresse email valide</div>
+                                    @error('email')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="password" class="form-label">Mot de passe <span class="text-danger">*</span></label>
                                         <input type="password" class="form-control" id="password" name="password" required>
-                                        <div class="invalid-feedback">Le mot de passe doit contenir au moins 8 caractères</div>
+                                        @error('password')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="confirm-password" class="form-label">Confirmer le mot de passe <span class="text-danger">*</span></label>
                                         <input type="password" class="form-control" id="confirm-password" name="confirm-password" required>
-                                        <div class="invalid-feedback">Les mots de passe ne correspondent pas</div>
+                                        @error('confirm-password')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                 </div>
                                 
-                                <input type="hidden" name="role" value="entrepreneur_waiting_approval">
-                                <input type="hidden" name="status" value="waiting">
+                                <input type="hidden" name="role" value="entrepreneur_en_attente">
+                                <input type="hidden" name="status" value="en_attente">
                                 <input type="hidden" name="rejection_reason" value="">
                                 
                                 <div class="mb-4 form-check">
@@ -223,9 +232,7 @@
                                     <label class="form-check-label" for="terms">J'accepte les <a href="#" class="text-primary">Conditions Générales</a></label>
                                 </div>
                                 
-                                <button type="submit" class="btn btn-register mb-3">
-                                    <i class="fas fa-user-plus me-2" href="{{ route('entrepreneur.dashboard') }}"></i> S'inscrire
-                                </button>
+                                    <button type="submit" class="btn btn-register mb-3"><i class="fas fa-user-plus me-2"></i> S'inscrire</button>
                                 
                                     <p class="text-center mt-3">
                                         Vous avez déjà un compte ?
@@ -283,75 +290,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('registration-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
-            document.getElementById('error-messages').classList.add('d-none');
-            
-            const enterpriseName = document.getElementById('enterprise-name').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-            const termsChecked = document.getElementById('terms').checked;
-            
-            let isValid = true;
-            const errors = [];
-            
-            if (!enterpriseName) {
-                document.getElementById('enterprise-name').classList.add('is-invalid');
-                errors.push("Le nom de l'entreprise est requis");
-                isValid = false;
-            }
-            
-            if (!email) {
-                document.getElementById('email').classList.add('is-invalid');
-                errors.push("L'adresse email est requise");
-                isValid = false;
-            } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-                document.getElementById('email').classList.add('is-invalid');
-                errors.push("Veuillez entrer une adresse email valide");
-                isValid = false;
-            }
-        
-            if (!password) {
-                document.getElementById('password').classList.add('is-invalid');
-                errors.push("Le mot de passe est requis");
-                isValid = false;
-            } else if (password.length < 8) {
-                document.getElementById('password').classList.add('is-invalid');
-                errors.push("Le mot de passe doit contenir au moins 8 caractères");
-                isValid = false;
-            }
-        
-            if (password !== confirmPassword) {
-                document.getElementById('confirm-password').classList.add('is-invalid');
-                errors.push("Les mots de passe ne correspondent pas");
-                isValid = false;
-            }
-            
-            if (!termsChecked) {
-                document.getElementById('terms').classList.add('is-invalid');
-                errors.push("Vous devez accepter les conditions générales");
-                isValid = false;
-            }
-            
-            if (!isValid) {
-                const errorList = document.getElementById('error-list');
-                errorList.innerHTML = '';
-                errors.forEach(error => {
-                    const li = document.createElement('li');
-                    li.textContent = error;
-                    errorList.appendChild(li);
-                });
-                document.getElementById('error-messages').classList.remove('d-none');
-            } else {
-                
-                alert('Formulaire valide, prêt à être soumis !');
-                // this.submit();
-            }
-        });
-        
-    
         document.querySelectorAll('.form-control').forEach(input => {
             input.addEventListener('focus', function() {
                 this.parentElement.classList.add('animate__animated', 'animate__pulse');

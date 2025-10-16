@@ -199,17 +199,22 @@
                         <div class="form-body">
                             <p class="text-muted mb-4">Entrez vos identifiants pour accéder à votre compte</p>
                             
-                            <form id="login-form">
+                            <form id="login-form" methode="POST" action="{{ route('entre.login') }}">
+                                @csrf
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                                     <input type="email" class="form-control" id="email" required>
-                                    <div class="invalid-feedback">Veuillez entrer une adresse email valide</div>
+                                    @error('email')
+                                    <small class="text-danger">{{ $message }}</small>
+                                    @enderror                                
                                 </div>
                                 
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Mot de passe <span class="text-danger">*</span></label>
                                     <input type="password" class="form-control" id="password" required>
-                                    <div class="invalid-feedback">Le mot de passe est requis</div>
+                                    @error('password')
+                                    <small class="text-danger">{{ $message }}</small>
+                                    @enderror                                
                                 </div>
                                 
                                 <div class="mb-3 form-check">
@@ -218,7 +223,7 @@
                                 </div>
                                 
                                 <button type="submit" class="btn btn-login mb-3">
-                                    <i class="fas fa-sign-in-alt me-2" href="{{ route('entrepreneur.dashboard') }}"></i> Se connecter
+                                    <i class="fas fa-sign-in-alt me-2"></i> Se connecter
                                 </button>
                                 
                                 <div class="text-center mt-3">
@@ -276,52 +281,5 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
-            document.getElementById('error-messages').classList.add('d-none');
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            let isValid = true;
-            const errors = [];
-            
-            if (!email) {
-                document.getElementById('email').classList.add('is-invalid');
-                errors.push("L'adresse email est requise");
-                isValid = false;
-            } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-                document.getElementById('email').classList.add('is-invalid');
-                errors.push("Veuillez entrer une adresse email valide");
-                isValid = false;
-            }
-        
-            if (!password) {
-                document.getElementById('password').classList.add('is-invalid');
-                errors.push("Le mot de passe est requis");
-                isValid = false;
-            }
-            
-            if (!isValid) {
-                const errorList = document.getElementById('error-list');
-                errorList.innerHTML = '';
-                errors.forEach(error => {
-                    const li = document.createElement('li');
-                    li.textContent = error;
-                    errorList.appendChild(li);
-                });
-                document.getElementById('error-messages').classList.remove('d-none');
-            } else {
-                document.getElementById('success-message').textContent = "Connexion réussie ! Redirection en cours...";
-                document.getElementById('success-message').classList.remove('d-none');
-                
-                setTimeout(() => {
-                    window.location.href = "dashboard.html";
-                }, 2000);
-            }
-        });
-    </script>
 </body>
 </html>

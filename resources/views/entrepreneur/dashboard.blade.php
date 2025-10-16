@@ -47,8 +47,8 @@
                             <i class="fas fa-chevron-down text-sm"></i>
                         </button>
                         <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
-                            <form method="POST" action="/entrepreneur/logout">
-                                <input type="hidden" name="_token" value="[CSRF_TOKEN]">
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
                                 <button type="submit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">
                                     <i class="fas fa-sign-out-alt mr-2"></i> Déconnexion
                                 </button>
@@ -63,10 +63,11 @@
     <nav class="bg-white shadow-md">
         <div class="container mx-auto px-4">
             <div class="flex space-x-8">
-                <a href="{{ route('entrepreneur.dashboard') }}" class="py-4 px-2 active-nav">Dashboard</a>
-                <a href="{{ route('entrepreneur.products') }}" class="py-4 px-2 text-gray-600 hover:text-red-600">Produits</a>
-                <a href="{{ route('entrepreneur.orders') }}" class="py-4 px-2 text-gray-600 hover:text-red-600">Commandes</a>
-                <a href="{{ route('entrepreneur.settings') }}" class="py-4 px-2 text-gray-600 hover:text-red-600">Paramètres</a>
+                <a href="{{ route('dashboard') }}" class="py-4 px-2 active-nav">Dashboard</a>
+                <a href="{{ route('products') }}" class="py-4 px-2 text-gray-600 hover:text-red-600">Produits</a>
+                <a href="{{ route('orders') }}" class="py-4 px-2 text-gray-600 hover:text-red-600">Commandes</a>
+                <a href="{{ route('statistique') }}" class="py-4 px-2 text-gray-600 hover:text-red-600">Statistiques</a>
+                <a href="#" class="py-4 px-2 text-gray-600 hover:text-red-600">Paramètres</a>
             </div>
         </div>
     </nav>
@@ -93,7 +94,7 @@
                         <h3 class="text-2xl font-bold">24</h3>
                     </div>
                 </div>
-                <a href="{{ route('entrepreneur.products') }}" class="mt-4 inline-block w-full text-center bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">
+                <a href="{{ route('products') }}" class="mt-4 inline-block w-full text-center bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">
                     Gérer les produits
                 </a>
             </div>
@@ -107,7 +108,7 @@
                         <h3 class="text-2xl font-bold">156</h3>
                     </div>
                 </div>
-                <a href="{{ route('entrepreneur.orders') }}" class="mt-4 inline-block w-full text-center bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                <a href="{{ route('orders') }}" class="mt-4 inline-block w-full text-center bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
                     Voir les commandes
                 </a>
             </div>
@@ -123,7 +124,7 @@
                         <h3 class="text-2xl font-bold">12</h3>
                     </div>
                 </div>
-                <a href="{{ route('entrepreneur.orders') }}" class="mt-4 inline-block w-full text-center bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 transition">
+                <a href="{{ route('orders') }}" class="mt-4 inline-block w-full text-center bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700 transition">
                     Traiter les commandes
                 </a>
             </div>
@@ -132,7 +133,7 @@
         <div class="mb-8">
             <h2 class="text-2xl font-bold text-gray-800 mb-4">Actions rapides</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <a href="{{ route('products.create') }}" class="bg-white p-4 rounded-lg shadow-md flex items-center card-hover">
+                <a href="#" class="bg-white p-4 rounded-lg shadow-md flex items-center card-hover">
                     <div class="bg-blue-100 p-3 rounded-full text-blue-600 mr-4">
                         <i class="fas fa-plus-circle text-xl"></i>
                     </div>
@@ -145,7 +146,7 @@
                     </div>
                 </a>
 
-                <a href="{{ route('entrepreneur.orders') }}" class="bg-white p-4 rounded-lg shadow-md flex items-center card-hover">
+                <a href="{{ route('statistique') }}" class="bg-white p-4 rounded-lg shadow-md flex items-center card-hover">
                     <div class="bg-purple-100 p-3 rounded-full text-purple-600 mr-4">
                         <i class="fas fa-chart-line text-xl"></i>
                     </div>
@@ -164,7 +165,7 @@
         <div class="bg-white rounded-lg shadow-md p-6 mb-8">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-2xl font-bold text-gray-800">Activité récente</h2>
-                <a href="{{ route('entrepreneur.orders') }}" class="text-red-600 hover:text-red-800">Voir tout</a>
+                <a href="#" class="text-red-600 hover:text-red-800">Voir tout</a>
             </div>
 
             <div class="space-y-4">
@@ -210,7 +211,7 @@
                         <p class="text-xs text-gray-400 mt-1">Il y a 2 jours</p>
                     </div>
                     <div>
-                        <a href="{{ route('products.edit', 1) }}" class="text-xs bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Réapprovisionner</a>
+                        <a href="#" class="text-xs bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Réapprovisionner</a>
                     </div>
                 </div>
             </div>

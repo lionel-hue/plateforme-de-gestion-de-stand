@@ -17,11 +17,15 @@ class VisiteurAuthController extends Controller
         return view('visiteurs.register');
     }
 
-    // Traite l’inscription
+    /**
+     * Traite l'inscription
+     */
     public function submitRegister(VisiteurRequest $request)
     {
+        //Validation des données
         $validatedData = $request->validated();
 
+        //Cree l'utilisateur
         $user = User::create([
             'first_name' => $validatedData['first_name'],
             'last_name'  => $validatedData['last_name'],
@@ -30,19 +34,29 @@ class VisiteurAuthController extends Controller
             'password'   => Hash::make($validatedData['password']),
         ]);
 
+        //Sauvegarde de l'utilisateur
         $user->save();
 
         return redirect()->route('login')->with('success', 'Inscription réussie ! Connectez-vous.');
     }
 
-    // Affiche le formulaire de connexion
+    /**
+     * Affiche le formulaire de connexion
+     */
     public function showLogin()
     {
         return view('visiteurs.login');
     }
+
+    /**
+     * Traite la connexion
+     */
     public function login(VisiteurLoginRequest $request)
     {
+        //Validation des données
         $credentials = $request->validated();
+        
+        //Verification des identifiants
         if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']])) {
             $request->session()->regenerate();
             $request->session()->flash('success','Bienvenue sur Eat&Drink !');
@@ -54,6 +68,9 @@ class VisiteurAuthController extends Controller
             }
     }
 
+    /**
+     * Deconnexion de l'utilisateur
+     */
     public function logout(Request $request)
     {   
         Auth::logout();

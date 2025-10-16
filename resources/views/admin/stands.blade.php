@@ -21,10 +21,10 @@
                     <a class="nav-link" href="{{ route('stands') }}">Stands</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('commandes', ['id' => Auth::user()->id]) }}">Commandes</a>
+                    <a class="nav-link" href="{{ route('commandes', ['id' => Auth::guard('admin')->user()->id]) }}">Commandes</a>
                 </li>
                 <li class="nav-item">
-                    <form method="POST" action="{{ route('logout') }}">
+                    <form method="POST" action="{{ route('admin.logout') }}">
                         @csrf
                         <button type="submit" class="btn btn-link nav-link text-danger">Déconnexion</button>
                     </form>
@@ -44,7 +44,7 @@
         <div class="card h-100 shadow-sm border-success-subtle">
             <img src="{{ $stand->image ?? 'https://via.placeholder.com/300x150' }}" class="card-img-top" alt="stand image">
             <div class="card-body">
-                <h5 class="card-title text-success">{{ $stand->nom_entreprise }}</h5>
+                <h5 class="card-title text-success">{{ $stand->nom_stand }}</h5>
                 <p class="card-text">{{ $stand->description ?? 'Pas de description.' }}</p>
                 <a href="{{ route('admin.commandes', $stand->id) }}" class="btn btn-outline-success"><i class="bi bi-receipt-cutoff me-1"></i>Commandes</a>
             </div>
@@ -52,4 +52,4 @@
     </div>
     @endforeach
 </div>
-@section
+@endsection

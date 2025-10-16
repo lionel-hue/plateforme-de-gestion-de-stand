@@ -22,10 +22,11 @@ class EntrepreneurRequeust extends FormRequest
     public function rules(): array
     {
         return [
-            'nom' => ['required','string','max:255'],
-            'description' => ['nullable','string'],
-            'prix' => ['required','numeric','min:0'],
-            'image_url' => ['nullable','image','max:2048'],
+            'nom_entreprise' => ['required','string','max:255'],
+            'email' => ['required', 'email', 'unique:entrepreneurs,email'],
+            'password' => ['required', 'string', 'min:8', 'max:255'],
+            'role' => ['required', 'string', 'min:5', 'max:255', 'entrepreneur'],
+            'password_confirmation' => ['required', 'string', 'min:8', 'max:255', 'same:password'],
         ];
     }
 }

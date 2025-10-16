@@ -1,7 +1,7 @@
 <x-mail::message>
 # 🎉 Votre demande a été approuvée !
 
-Bonjour {{ $user->name ?? $user->nom_entreprise }},
+Bonjour {{ $user->nom_entreprise }},
 
 Bonne nouvelle ! Votre inscription en tant qu'entrepreneur à l'événement **Eat&Drink** a été **approuvée** ✅.
 

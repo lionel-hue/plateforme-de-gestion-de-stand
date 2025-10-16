@@ -284,8 +284,8 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="header__top__right text-end">
                         <div class="header__top__right__auth">
-                            <form method="POST" action="/entrepreneur/logout" class="d-inline">
-                                <input type="hidden" name="_token" value="CSRF_TOKEN">
+                            <form method="POST" action="{{ route('entrepreneur.logout') }}" class="d-inline">
+                                @csrf
                                 <button type="submit" class="btn btn-link text-white p-0 text-decoration-none">
                                     <i class="fas fa-sign-out-alt"></i> Logout
                                 </button>
@@ -301,7 +301,7 @@
         <div class="row align-items-center">
             <div class="col-lg-3 col-6">
                 <div class="header__logo">
-                    <a href="/dashboard/entrepreneur" class="text-decoration-none">
+                    <a href="{{ route('entrepreneur.dashboard') }}" class="text-decoration-none">
                         <h3 class="text-success m-0">Eat&Drink</h3>
                     </a>
                 </div>
@@ -309,9 +309,9 @@
             <div class="col-lg-6 d-none d-lg-block">
                 <nav class="header__menu">
                     <ul class="mb-0">
-                        <li><a href="/dashboard/entrepreneur">Dashboard</a></li>
-                        <li class="active"><a href="/entrepreneur/produits">Products</a></li>
-                        <li><a href="/entrepreneur/commandes">Orders</a></li>
+                        <li><a href="{{ route('entrepreneur.dashboard') }}">Dashboard</a></li>
+                        <li class="active"><a href="{{ route('entrepreneur.products') }}">Products</a></li>
+                        <li><a href="{{ route('entrepreneur.orders') }}">Orders</a></li>
                     </ul>
                 </nav>
             </div>
@@ -324,9 +324,9 @@
             <div class="col-lg-12 text-center text-white">
                 <h2 class="mb-3">Add New Product</h2>
                 <div class="d-flex justify-content-center gap-3">
-                    <a href="/dashboard/entrepreneur" class="text-white"><i class="fas fa-home"></i> Dashboard</a>
+                    <a href="{{ route('entrepreneur.dashboard') }}" class="text-white"><i class="fas fa-home"></i> Dashboard</a>
                     <span><i class="fas fa-chevron-right"></i></span>
-                    <a href="/entrepreneur/produits" class="text-white">Products</a>
+                    <a href="{{ route('entrepreneur.products') }}" class="text-white">Products</a>
                     <span><i class="fas fa-chevron-right"></i></span>
                     <span>Add Product</span>
                 </div>

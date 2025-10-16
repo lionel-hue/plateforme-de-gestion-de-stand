@@ -25,7 +25,7 @@ class VisiteurRequest extends FormRequest
             'first_name' => 'required|string|max:255',
             'last_name'  => 'required|string|max:255',
             'email'      => 'required|email|unique:users,email',
-            'phone'      => 'nullable|string|min:8|max:20',
+            'phone'      => 'nullable|numeric|min:8|max:20',
             'password'   => 'required|string|min:8|confirmed',
             'password_confirmation'=> 'required|string|min:8',
             'role'=> 'required|string',

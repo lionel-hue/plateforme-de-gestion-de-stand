@@ -16,14 +16,11 @@ return new class extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('phone')->nullable();
-            $table->string('nom_entreprise')->default('Aucune entreprise');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['admin', 'entrepreneur_en_attente', 'entrepreneur_approuve', 'entrepreneur_refuse']);//->default('entrepreneur_en_attente');
-            $table->enum('status', ['en_attente', 'approuve', 'refuse']);
-            $table->text('raison_rejet')->nullable();
             $table->string('token')->nullable();
+            $table->enum('role', ['visiteur','admin'])->default('visiteur');
             $table->rememberToken();
             $table->timestamps();
         });

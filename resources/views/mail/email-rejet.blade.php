@@ -1,14 +1,14 @@
 <x-mail::message>
 # Votre demande d'inscription a été rejetée
 
-Bonjour {{ $user->name }},
+Bonjour {{ $user->nom_entreprise }},
 
 Nous avons étudié votre demande d'inscription en tant qu'entrepreneur.  
 Malheureusement, celle-ci a été **rejetée**.
 
 @if($user->raison_rejet)
 ## Motif du rejet :
-> {{ $user->raison_rejet }}
+{{ $user->raison_rejet }}
 @endif
 
 <x-mail::button :url="route('accueil')">

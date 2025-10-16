@@ -18,31 +18,52 @@ use App\Http\Requests\EntrepreneurRequeust;
 class EntrepreneurController extends Controller
 {
 
+    /**
+     * Affiche le tableau de bord de l'entrepreneur
+     */
     public function dashboard()
     {
+        //Recuperation du stand de l'entrepreneur
         $stand = Auth::stand();
 
+        //Recuperation des produits de l'entrepreneur
         $produits = Produit::where('stand_id', $stand->id)->get();
 
+        //Affiche le tableau de bord de l'entrepreneur
         return view('entrepreneur.dashboard', compact('produits'));
     }
 
+    /**
+     * Affiche la liste des produits
+     */
     public function listeProduits()
     {
+        //Recuperation du stand de l'entrepreneur
         $stand = Auth::stand();
+        //Recuperation des produits de l'entrepreneur
         $produits = Produit::where('stand_id', $stand->id)->get();
 
+        //Affiche la liste des produits
         return view('entrepreneur.produits.index', compact('produits'));
     }
 
+    /**
+     * Affiche la page de creation d'un produit
+     */
     public function creerProduit()
     {
         return view('entrepreneur.produits.create');
     }
+    
+    /**
+     * Sauvegarde d'un produit
+     */
     public function sauvegarderProduit(EntrepreneurRequeust $request)
     {
+        //Validation des données
         $validatedData = $request->validated();
 
+        //Creation du produit
         $produit = new Produit();
         $produit->stand_id = Auth::id();
         $produit->nom = $validatedData['nom'];
@@ -59,23 +80,30 @@ class EntrepreneurController extends Controller
         return redirect()->route('entrepreneur.produits')->with('success', 'Produit créé avec succès.');
     }
 
-    
+    /**
+     * Affiche la page de modification d'un produit
+     */    
     public function modifierProduit(EntrepreneurRequeust $request, $id)
     {
+        //Recuperation du produit
         $produit = Produit::where('stand_id', Auth::id())->findOrFail($id);
 
+        //Affiche la page de modification d'un produit
         return view('entrepreneur.produits.edit', compact('produit'));
     }
 
     /**
- * @param \App\Http\Requests\EntrepreneurRequeust $request
- */
+     * Mise a jour d'un produit
+     */
     public function mettreAJourProduit(EntrepreneurRequeust $request, $id)
     {
+        //Recuperation du produit
         $produit = Produit::where('stand_id', Auth::id())->findOrFail($id);
 
+        //Validation des données
         $validatedData = $request->validated();
 
+        //Mise a jour du produit
         $produit->nom = $validatedData['nom'];
         $produit->description = $validatedData['description'];
         $produit->prix = $validatedData['prix'];
@@ -86,17 +114,21 @@ class EntrepreneurController extends Controller
             $produit->image_url = $path;
         }
 
+        //Sauvegarde du produit
         $produit->save();
 
         return redirect()->route('entrepreneur.produits')->with('success', 'Produit mis à jour avec succès.');
     }
 
     /**
- * @param \App\Http\Requests\EntrepreneurRequeust $request
- */
+     * Suppression d'un produit
+     */
     public function supprimerProduit(EntrepreneurRequeust $request, $id)
     {
+        //Recuperation du produit
         $produit = Produit::where('stand_id', Auth::id())->findOrFail($id);
+
+        //Suppression du produit
         $produit->delete();
 
         return redirect()->route('entrepreneur.produits')->with('success', 'Produit supprimé.');
