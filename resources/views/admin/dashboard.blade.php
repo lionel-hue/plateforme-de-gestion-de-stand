@@ -8,33 +8,26 @@
 
 
 @section('content')
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-    <div class="container-fluid">
-        <a class="navbar-brand text-danger fw-bold" href="{{route ('accueil')}}">Eat&Drink Admin</a>
-        <div class="collapse navbar-collapse justify-content-end">
-            <ul class="navbar-nav mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('demandes') }}">Demandes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('stands') }}">Stands</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('commandes', ['id' => Auth::guard('admin')->user()->id]) }}">Commandes</a>
-                </li>
-                <li class="nav-item">
-                    <form method="POST" action="{{ route('admin.logout') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-link nav-link text-danger">Déconnexion</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
+  <!-- 🌈 Barre de navigation -->
+  <nav class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="{{ route('accueil') }}" class="text-2xl font-bold text-red-600 flex items-center gap-2">
+        <i class="fa-solid fa-utensils text-yellow-500"></i> Eat<span class="text-yellow-500">&</span>Drink
+      </a>
+      <div class="hidden md:flex gap-6">
+        <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-red-600 transition">Dashboard</a>
+        <a href="{{ route('demandes') }}" class="text-gray-700 hover:text-red-600 transition">Demandes</a>
+        <a href="{{ route('stands') }}" class="text-red-600 font-semibold">Stands</a>
+        <a href="{{ route('commandes', ['id' => Auth::guard('user')->user()->id]) }}" class="text-gray-700 hover:text-red-600 transition">Commandes</a>
+      </div>
+      <form method="POST" action="{{ route('admin.logout') }}">
+        @csrf
+        <button class="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition">
+          <i class="fa-solid fa-right-from-bracket mr-2"></i>Déconnexion
+        </button>
+      </form>
     </div>
-</nav>
+  </nav>
 
 <div class="container mt-4">
     <div class="bg-warning-subtle p-4 rounded-4 shadow-sm mb-4">

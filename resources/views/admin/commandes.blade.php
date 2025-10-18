@@ -20,7 +20,7 @@
                     <a class="nav-link" href="{{ route('stands') }}">Stands</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('commandes', ['id' => Auth::guard('admin')->user()->id]) }}">Commandes</a>
+                    <a class="nav-link" href="{{ route('commandes', ['id' => Auth::guard('user')->user()->id]) }}">Commandes</a>
                 </li>
                 <li class="nav-item">
                     <form method="POST" action="{{ route('admin.logout') }}">
