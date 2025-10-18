@@ -18,7 +18,7 @@ class AdminMiddleware extends Middleware
     public function handle(Request $request, Closure $next): Response
     {
 
-        if (Auth::guard('admin')->check())
+        if (Auth::guard('user')->check())
         return $next($request);
         
         return redirect()->route('accueil');
