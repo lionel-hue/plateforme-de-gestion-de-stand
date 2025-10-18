@@ -22,7 +22,7 @@ class AdminAuthController extends Controller
         $admin = User::where('email', $credentials['email'])->first();
         //Vérifier si l'utilisateur admin existe et si le mot de passe est correct
         if ($admin && Hash::check($credentials['password'], $admin->password) && $admin->role === 'admin') {
-            Auth::guard('admin')->login($admin);
+            Auth::guard('user')->login($admin);
             $request->session()->regenerate();
             return redirect()->route('dashboard');
         }    
@@ -35,7 +35,7 @@ class AdminAuthController extends Controller
      *  Logout admin
      */    
     public function logout(Request $request){
-        Auth::guard('admin')->logout();
+        Auth::guard('user')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login')->with('success', 'Vous avez été déconnecté.');
