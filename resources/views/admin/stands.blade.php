@@ -125,8 +125,7 @@
     </div>
 
     <div class="text-center mt-10 text-sm text-gray-500 border-t border-gray-800 pt-4">
-      © 2025 Eat&Drink Bénin — Tous droits réservés.
-    </div>
+    © {{ date('Y') }} <span class="text-red-600 font-semibold">Eat&Drink</span> — Tous droits réservés 🍷    </div>
   </footer>
 </body>
 @endsection
