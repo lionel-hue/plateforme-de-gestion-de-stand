@@ -8,8 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}">
     <link rel="stylesheet" href="#">
-
-   <!-- <style>
+    <!-- <style>
         html, body {
             transition: background-color 0.5s ease, color 0.5s ease;
         }
