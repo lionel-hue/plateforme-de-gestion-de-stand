@@ -1,0 +1,1 @@
+lscat -f README.md package.json composer.json .env -d app/ database/migrations/ database/seeders/ resources/css resources/js resources/views routes/ -c -D test.txt -H none -sd resources/img
