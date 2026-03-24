@@ -1,61 +1,133 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Eat&Drink - Plateforme de Gestion de Stands Culinaires
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
 
-## About Laravel
+**Eat&Drink** est une application web complète développée avec **Laravel**, conçue pour gérer et promouvoir les stands culinaires lors d'événements festifs au Bénin. Elle met en relation les visiteurs, les entrepreneurs (exposants) et les administrateurs pour une expérience gastronomique fluide et organisée.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📖 Table des Matières
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- [Eat\&Drink - Plateforme de Gestion de Stands Culinaires](#eatdrink---plateforme-de-gestion-de-stands-culinaires)
+  - [📖 Table des Matières](#-table-des-matières)
+  - [🍽️ Aperçu du Projet](#️-aperçu-du-projet)
+  - [✨ Fonctionnalités Clés](#-fonctionnalités-clés)
+    - [👤 Pour les Visiteurs](#-pour-les-visiteurs)
+    - [🍳 Pour les Entrepreneurs (Exposants)](#-pour-les-entrepreneurs-exposants)
+    - [🛡️ Pour les Administrateurs](#️-pour-les-administrateurs)
+  - [🛠️ Technologies Utilisées](#️-technologies-utilisées)
+  - [🚀 Installation](#-installation)
+  - [🗄️ Structure de la Base de Données](#️-structure-de-la-base-de-données)
+  - [📄 Licence](#-licence)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🍽️ Aperçu du Projet
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Eat&Drink vise à digitaliser la gestion des stands de nourriture (maquis, dibiteries, restaurants) lors de festivals. La plateforme permet aux entrepreneurs de s'inscrire, d'attendre une validation administrative, puis de gérer leurs produits et commandes. Les visiteurs peuvent découvrir les stands, consulter le programme et passer des commandes.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+![Welcome Page](assets/img1.png)
+*> Page d'accueil présentant le festival et les options de navigation.*
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## ✨ Fonctionnalités Clés
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 👤 Pour les Visiteurs
+- **Consultation des Stands :** Vue détaillée des stands approuvés avec localisation et spécialités.
+- **Programme des Événements :** Calendrier des animations (DJ, concerts, dégustations).
+- **Compte Utilisateur :** Inscription, connexion et gestion du profil.
+- **Panier :** Simulation de commande (section panier).
 
-### Premium Partners
+### 🍳 Pour les Entrepreneurs (Exposants)
+- **Inscription & Validation :** Soumission de dossier avec statut (En attente, Approuvé, Refusé).
+- **Tableau de Bord :** Vue d'ensemble des performances.
+- **Gestion des Produits :** Ajout, modification et suppression des plats/boissons.
+- **Suivi des Commandes :** Historique et statistiques des ventes.
+- **Notifications :** Recevoir des emails lors de l'approbation ou du rejet du compte.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+![Inscription Entrepreneur](assets/img2.png)
+*> Formulaire d'inscription dédié aux entrepreneurs souhaitant exposer.*
 
-## Contributing
+### 🛡️ Pour les Administrateurs
+- **Gestion des Utilisateurs :** Validation des comptes entrepreneurs (Approuver/Rejeter avec motif).
+- **Suivi des Stands :** Liste complète des stands approuvés.
+- **Statistiques Globales :** Nombre de demandes en attente, stands approuvés, commandes par stand.
+- **Supervision des Commandes :** Accès détaillé aux commandes par stand.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+![Section Panier](assets/img3.png)
+*> Interface du panier permettant aux visiteurs de gérer leurs sélections.*
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🛠️ Technologies Utilisées
 
-## Security Vulnerabilities
+- **Backend :** Laravel 12, PHP 8.2
+- **Base de Données :** MySQL
+- **Frontend :** Blade Templates, Tailwind CSS, Bootstrap 5
+- **JavaScript :** jQuery, Owl Carousel, MixItUp, Chart.js (pour les statistiques)
+- **Authentification :** Laravel Custom Guards (User, Entrepreneur, Admin)
+- **Emailing :** Laravel Mails (Queueable)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 🚀 Installation
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Suivez ces étapes pour installer le projet localement :
+
+1.  **Cloner le dépôt :**
+    ```bash
+    git clone https://github.com/votre-utilisateur/eat-and-drink.git
+    cd eat-and-drink
+    ```
+
+2.  **Installer les dépendances :**
+    ```bash
+    composer install
+    npm install
+    ```
+
+3.  **Configurer l'environnement :**
+    Copiez le fichier `.env.example` vers `.env` et générez la clé :
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
+    *Configurez vos identifiants de base de données dans le fichier `.env`.*
+
+4.  **Migrer la base de données et Seeder :**
+    ```bash
+    php artisan migrate --seed
+    ```
+    *Cela créera les tables et ajoutera des données de test (Admin, Entrepreneurs, Stands).*
+
+5.  **Lancer le serveur :**
+    ```bash
+    php artisan serve
+    npm run dev
+    ```
+
+6.  **Accès par défaut (Seeders) :**
+    - **Admin :** `admin@admin.com` / `password`
+    - **Entrepreneur :** `que-du-kiff-event@gmail.com` / `password`
+
+---
+
+## 🗄️ Structure de la Base de Données
+
+Les principales tables incluent :
+- `users` : Visiteurs et Administrateurs.
+- `entrepreneurs` : Gestion des exposants avec statut de validation.
+- `stands` : Informations sur les stands (localisation, type, image).
+- `produits` : Articles vendus par les stands.
+- `commandes` : Historique des commandes (détails stockés en JSON).
+
+---
+
+## 📄 Licence
+
+Ce projet est open-sourced sous la licence [MIT](https://opensource.org/licenses/MIT).
+
+---
+
+**Développé avec ❤️ pour la gastronomie béninoise.**
