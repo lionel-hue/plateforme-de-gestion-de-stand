@@ -199,11 +199,11 @@
                         <div class="form-body">
                             <p class="text-muted mb-4">Entrez vos identifiants pour accéder à votre compte</p>
                             
-                            <form id="login-form" methode="POST" action="{{ route('entre.login') }}">
+                            <form id="login-form" method="POST" action="{{ route('entre.login') }}">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" id="email" required>
+                                    <input type="email" class="form-control" id="email" name="email" required>
                                     @error('email')
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror                                
@@ -211,14 +211,14 @@
                                 
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Mot de passe <span class="text-danger">*</span></label>
-                                    <input type="password" class="form-control" id="password" required>
+                                    <input type="password" class="form-control" id="password" name="password" required>
                                     @error('password')
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror                                
                                 </div>
                                 
                                 <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="remember">
+                                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
                                     <label class="form-check-label" for="remember">Se souvenir de moi</label>
                                 </div>
                                 
