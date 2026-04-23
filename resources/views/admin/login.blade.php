@@ -29,10 +29,10 @@
         justify-content: center;
         position: relative;
         overflow: hidden;
-        background: #000;
+        background: linear-gradient(135deg, #1a0a0a 0%, #3d0505 100%);
     }
 
-    /* 📸 Professional Horizontal Parallel Slider */
+    /* 📸 Professional Background Slider */
     .bg-slider {
         position: absolute;
         top: 0;
@@ -53,7 +53,7 @@
         opacity: 0;
         z-index: 1;
         transform: scale(1);
-        transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1), opacity 0.4s ease;
+        transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
     }
 
     .bg-slide.active {
@@ -74,18 +74,42 @@
     .slide-in-left { transform: translateX(100%) scale(1.1); opacity: 1 !important; z-index: 3; }
     .slide-in-right { transform: translateX(-100%) scale(1.1); opacity: 1 !important; z-index: 3; }
 
+    /* 👁️ The Blink Flash Overlay - Softer & Whiter */
+    .blink-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, rgba(255, 230, 230, 0.4) 100%);
+        backdrop-filter: blur(15px);
+        z-index: 5;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .blinking {
+        animation: blinkTransition 1.4s ease-in-out forwards;
+    }
+
+    @keyframes blinkTransition {
+        0% { opacity: 0; }
+        25% { opacity: 0.6; }
+        100% { opacity: 0; }
+    }
+
     .overlay {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
+        background: radial-gradient(circle, rgba(120, 10, 10, 0.1) 0%, rgba(0, 0, 0, 0.5) 100%);
         z-index: 4;
         pointer-events: none;
     }
 
-    /* 💎 Glass Card Entrance Animations */
+    /* 💎 Glass Card */
     .glass-card {
         position: relative;
         z-index: 10;
@@ -108,7 +132,6 @@
         100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    /* ✨ One-time Card Glow Sweep */
     .glass-card::after {
         content: "";
         position: absolute;
@@ -234,7 +257,12 @@
         box-shadow: 0 0 20px rgba(230, 57, 70, 0.2);
     }
 
-    /* 🔘 Enticing Button with Continuous Shimmer & Swell */
+    .glass-input::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 500;
+    }
+
+    /* 🔘 Button with Continuous Shimmer & Swell */
     .btn-submit {
         position: relative;
         width: 100%;
@@ -310,10 +338,39 @@
         z-index: 10;
     }
 
-    #togglePassword:hover {
-        background: rgba(255, 255, 255, 0.15);
-        color: white;
-        border-color: rgba(255, 255, 255, 0.3);
+    /* 📊 Slideshow Progress Dots - Vertical Modern Position */
+    .slider-nav {
+        position: absolute;
+        right: 40px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column; /* Vertical */
+        gap: 20px;
+        z-index: 100;
+        padding: 20px 12px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(15px);
+        border-radius: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        cursor: pointer;
+    }
+
+    .dot.active {
+        background: var(--primary-red);
+        height: 24px; /* Stretch effect for active state */
+        border-radius: 10px;
+        box-shadow: 0 0 15px var(--primary-red);
     }
 
     .footer-text {
@@ -337,6 +394,14 @@
         <div class="bg-slide" style="background-image: url('/img/admin-login-bg-3.png');"></div>
     </div>
     <div class="overlay"></div>
+    <div class="blink-overlay" id="blinkOverlay"></div>
+
+    <!-- 📊 Background Progress -->
+    <div class="slider-nav">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
 
     <div class="glass-card">
         <div class="logo-container">
@@ -392,39 +457,51 @@
         eyeIcon.classList.toggle('fa-eye-slash');
     });
 
-    // 🌪️ Professional Horizontal Carousel Flow Logic
+    // 🌪️ Horizontal Carousel + Blink Transition Logic
     const slides = document.querySelectorAll('.bg-slide');
+    const dots = document.querySelectorAll('.dot');
+    const blinkOverlay = document.getElementById('blinkOverlay');
     let currentIdx = 0;
     
-    // Direction pairs (Exit, Entry) - Now strictly horizontal
     const transitions = [
-        { exit: 'slide-out-left', entry: 'slide-in-left' },   // Flow to Left
-        { exit: 'slide-out-right', entry: 'slide-in-right' }  // Flow to Right
+        { exit: 'slide-out-left', entry: 'slide-in-left' },
+        { exit: 'slide-out-right', entry: 'slide-in-right' }
     ];
 
     function transitionBackground() {
-        const prevSlide = slides[currentIdx];
-        currentIdx = (currentIdx + 1) % slides.length;
-        const nextSlide = slides[currentIdx];
-
-        const flow = transitions[Math.floor(Math.random() * transitions.length)];
-        
-        nextSlide.className = `bg-slide ${flow.entry}`;
-        void nextSlide.offsetWidth;
-        prevSlide.classList.add(flow.exit);
-        nextSlide.style.transform = 'translate(0, 0) scale(1)';
-        nextSlide.style.opacity = '1';
+        // Trigger Blink
+        blinkOverlay.classList.remove('blinking');
+        void blinkOverlay.offsetWidth;
+        blinkOverlay.classList.add('blinking');
 
         setTimeout(() => {
-            slides.forEach(s => {
-                s.className = 'bg-slide';
-                s.style.transform = '';
-                s.style.opacity = '';
-            });
-            nextSlide.classList.add('active');
-        }, 1200); // Faster transition (1.2s)
+            const prevSlide = slides[currentIdx];
+            currentIdx = (currentIdx + 1) % slides.length;
+            const nextSlide = slides[currentIdx];
+
+            // Update Dots
+            dots.forEach(d => d.classList.remove('active'));
+            dots[currentIdx].classList.add('active');
+
+            const flow = transitions[Math.floor(Math.random() * transitions.length)];
+            
+            nextSlide.className = `bg-slide ${flow.entry}`;
+            void nextSlide.offsetWidth;
+            prevSlide.classList.add(flow.exit);
+            nextSlide.style.transform = 'translate(0, 0) scale(1)';
+            nextSlide.style.opacity = '1';
+
+            setTimeout(() => {
+                slides.forEach(s => {
+                    s.className = 'bg-slide';
+                    s.style.transform = '';
+                    s.style.opacity = '';
+                });
+                nextSlide.classList.add('active');
+            }, 1200);
+        }, 300);
     }
 
-    setInterval(transitionBackground, 7000); // Transition every 7 seconds
+    setInterval(transitionBackground, 7000);
 </script>
 @endsection
