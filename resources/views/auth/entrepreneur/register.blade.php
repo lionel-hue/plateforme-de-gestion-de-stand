@@ -188,7 +188,7 @@
                                 <ul class="mb-0" id="error-list"></ul>
                             </div>
                             
-                            <form id="registration-form" methode = "POST" action = "{{ route('entre.register')}}">
+                            <form id="registration-form" method="POST" action="{{ route('entre.register')}}">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="nom_entreprise" class="form-label">Nom de l'entreprise <span class="text-danger">*</span></label>
@@ -215,9 +215,9 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="confirm-password" class="form-label">Confirmer le mot de passe <span class="text-danger">*</span></label>
-                                        <input type="password" class="form-control" id="confirm-password" name="confirm-password" required>
-                                        @error('confirm-password')
+                                        <label for="password_confirmation" class="form-label">Confirmer le mot de passe <span class="text-danger">*</span></label>
+                                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                                        @error('password_confirmation')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
