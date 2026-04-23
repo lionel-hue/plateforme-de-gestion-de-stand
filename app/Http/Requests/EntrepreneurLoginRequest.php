@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EntrepreneurRequeust extends FormRequest
+class EntrepreneurLoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,8 @@ class EntrepreneurRequeust extends FormRequest
     public function rules(): array
     {
         return [
-            'nom_entreprise' => ['required','string','max:255'],
-            'email' => ['required', 'email', 'unique:entrepreneurs,email'],
-            'password' => ['required', 'string', 'min:8', 'max:255'],
-            'password_confirmation' => ['required', 'string', 'min:8', 'max:255', 'same:password'],
+            'email' => ['required','string','email','exists:entrepreneurs,email'],
+            'password' => ['required','string','min:8','max:255'],
         ];
     }
 }

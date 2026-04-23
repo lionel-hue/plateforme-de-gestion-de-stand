@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\EntrepreneurRequeust;
 use App\Http\Requests\UserLoginRequest;
 use App\Models\Entrepreneur;
 
@@ -26,7 +26,7 @@ class EntrepreneurAuthController extends Controller
     /**
      * Gestion de la registration
      */
-    public function register(UserRequest $request)
+    public function register(EntrepreneurRequeust $request)
     {
         //Validation des données
         $validator = $request->validated();
