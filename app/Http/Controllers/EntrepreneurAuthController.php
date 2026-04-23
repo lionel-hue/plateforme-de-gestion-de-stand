@@ -42,7 +42,7 @@ class EntrepreneurAuthController extends Controller
         // Connection de l'entrepreneur
         Auth::guard('entrepreneur')->login($user);
 
-        return redirect()->route('entrepreneur.dashboard')
+        return redirect()->route('dashboard')
             ->with('success', 'Registration successful! Your account is pending approval.');
     }
 
@@ -76,7 +76,7 @@ class EntrepreneurAuthController extends Controller
                     'email' => 'Your account has been rejected. Reason: ' . $user->raison_rejet
                 ]);
             }
-            return redirect()->intended(route('entrepreneur.dashboard'));
+            return redirect()->intended(route('dashboard'));
         }
         return back()->withErrors([
             'email' => 'Identifiants invalides ou rôle non autorisé.',
