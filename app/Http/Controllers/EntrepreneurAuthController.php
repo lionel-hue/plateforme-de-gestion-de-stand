@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\EntrepreneurRequeust;
-use App\Http\Requests\UserLoginRequest;
+use App\Http\Requests\EntrepreneurLoginRequest;
 use App\Models\Entrepreneur;
 
 class EntrepreneurAuthController extends Controller
@@ -63,7 +63,7 @@ class EntrepreneurAuthController extends Controller
     /**
      * Gestion de la connection
      */
-    public function login(UserLoginRequest $request)
+    public function login(EntrepreneurLoginRequest $request)
     {
         //Validation des données
         $credentials = $request->validated();
