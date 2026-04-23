@@ -47,7 +47,7 @@
             overflow-y: auto;
         }
 
-        /* 📸 Stand Slideshow Background */
+        /* 📸 Stand Slideshow Background - Using Product Assets */
         .bg-slider {
             position: fixed;
             top: 0;
@@ -139,7 +139,7 @@
 
         @keyframes logoGlow {
             from { text-shadow: 0 0 10px rgba(230, 57, 70, 0.2); }
-            to { text-shadow: 0 0 25px rgba(230, 57, 70, 0.8); }
+            to { text-shadow: 0 0 25px rgba(230, 57, 70, 0.8), 0 0 10px rgba(255, 255, 255, 0.4); }
         }
 
         .page-title {
@@ -221,7 +221,7 @@
         .stand-card:hover {
             transform: translateY(-12px) scale(1.02);
             border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 40px rgba(230, 57, 70, 0.2);
         }
 
         /* 📸 Glowing Stand Image */
@@ -234,15 +234,21 @@
         .stand-image {
             width: 100%;
             height: 100%;
-            object-cover: cover;
+            object-fit: cover;
             transition: transform 0.8s ease;
+            animation: imgGlowPulse 4s infinite alternate;
+        }
+
+        @keyframes imgGlowPulse {
+            0% { filter: drop-shadow(0 0 5px rgba(230, 57, 70, 0.1)); }
+            100% { filter: drop-shadow(0 0 20px rgba(230, 57, 70, 0.4)); }
         }
 
         .stand-card:hover .stand-image {
             transform: scale(1.1);
         }
 
-        /* ✨ Image Glow Effect */
+        /* ✨ Image Glow Effect Overlay */
         .stand-image-box::after {
             content: "";
             position: absolute;
@@ -250,13 +256,21 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(230, 57, 70, 0) 0%, rgba(230, 57, 70, 0) 100%);
+            background: linear-gradient(
+                to bottom,
+                transparent 60%,
+                rgba(230, 57, 70, 0.2) 100%
+            );
             transition: all 0.5s ease;
             pointer-events: none;
         }
 
         .stand-card:hover .stand-image-box::after {
-            background: radial-gradient(circle, rgba(230, 57, 70, 0) 40%, rgba(230, 57, 70, 0.4) 100%);
+            background: linear-gradient(
+                to bottom,
+                transparent 40%,
+                rgba(230, 57, 70, 0.5) 100%
+            );
         }
 
         .stand-badge {
@@ -270,7 +284,8 @@
             font-size: 0.75rem;
             font-weight: 800;
             text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(230, 57, 70, 0.5);
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.6);
+            z-index: 5;
         }
 
         .stand-content {
@@ -285,6 +300,7 @@
             font-weight: 800;
             color: white;
             margin-bottom: 10px;
+            animation: logoGlow 3s ease-in-out infinite alternate;
         }
 
         .stand-rating {
@@ -333,18 +349,42 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4);
             animation: buttonPulse 3s ease-in-out infinite alternate;
+        }
+
+        .btn-discover::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -100%;
+            width: 100%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent
+            );
+            transform: rotate(35deg);
+            animation: buttonShimmer 4s infinite;
+        }
+
+        @keyframes buttonShimmer {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
         }
 
         .btn-discover:hover {
             background: var(--primary-red-hover);
             transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(230, 57, 70, 0.4);
+            box-shadow: 0 8px 25px rgba(230, 57, 70, 0.7);
         }
 
         @keyframes buttonPulse {
-            from { transform: scale(1); }
-            to { transform: scale(1.03); }
+            from { transform: scale(1); box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4); }
+            to { transform: scale(1.03); box-shadow: 0 8px 20px rgba(230, 57, 70, 0.7); }
         }
 
         /* 📊 Navigation Dots */
@@ -471,13 +511,15 @@
         </div>
 
         <div class="stand-grid">
-            @foreach ($stands as $stand)
+            @foreach ($stands as $index => $stand)
                 @php
                     $types = explode(',', strtolower($stand->type_stand));
+                    // Alternate between product and product-2 for demo
+                    $demoImg = ($index % 2 == 0) ? 'product.png' : 'product-2.png';
                 @endphp
                 <div class="stand-card">
                     <div class="stand-image-box">
-                        <img src="{{ asset($stand->image) }}" alt="{{ $stand->nom_stand }}" class="stand-image">
+                        <img src="{{ asset('img/' . $demoImg) }}" alt="{{ $stand->nom_stand }}" class="stand-image">
                         <div class="stand-badge">{{ $stand->slug }}</div>
                     </div>
                     <div class="stand-content">
