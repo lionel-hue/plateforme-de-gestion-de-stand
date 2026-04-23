@@ -3,305 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Programme</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Programme | Eat&Drink Bénin</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        .programme-card {
-            transition: all 0.3s ease;
-            border-left: 4px solid #E63946;
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-shadow: rgba(0, 0, 0, 0.4);
+            --primary-red: #e63946;
+            --primary-red-hover: #c1121f;
         }
-        .programme-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        .active-day {
-            background-color: #E63946;
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+            background: #000;
             color: white;
+            overflow-x: hidden;
         }
-        .food-tag {
-            background-color: #FFD166;
-            color: #1D3557;
+
+        /* 🖱️ Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0505; }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--primary-red), #801a1a);
+            border-radius: 10px;
         }
-        .time-slot {
+
+        .event-wrapper {
             position: relative;
-            padding-left: 1.5rem;
+            z-index: 10;
+            padding-top: 120px;
+            padding-bottom: 80px;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
         }
-        .time-slot::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0.5rem;
-            width: 0.75rem;
-            height: 0.75rem;
-            border-radius: 50%;
-            background-color: #E63946;
+
+        /* 📸 Background Slider */
+        .bg-slider {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
         }
-        .night-event {
-            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-            color: white;
+        .bg-slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            opacity: 0; transition: opacity 1.2s ease-in-out;
         }
-        .continuous-event {
-            background: linear-gradient(to right, #f8ff00, #3ad59f);
-            color: #1D3557;
+        .bg-slide.active { opacity: 1; animation: swell 15s infinite alternate; }
+        @keyframes swell { from { transform: scale(1); } to { transform: scale(1.1); } }
+        
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.8) 100%);
+            z-index: 1;
+        }
+
+        .blink-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; z-index: 5; opacity: 0; pointer-events: none;
+        }
+        .blinking { animation: blinkTransition 1.4s ease-in-out forwards; }
+        @keyframes blinkTransition { 0% { opacity: 0; } 25% { opacity: 0.25; } 100% { opacity: 0; } }
+
+        /* 🌊 Glass Navbar */
+        .navbar {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 1100px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000;
+        }
+        .logo-text { font-size: 1.8rem; font-weight: 900; color: white; text-decoration: none; }
+        .logo-text span { color: var(--primary-red); }
+        .nav-link { color: rgba(255, 255, 255, 0.7); text-decoration: none; font-weight: 600; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: white; }
+
+        /* 📅 Day Filters */
+        .filter-container {
+            display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; flex-wrap: wrap;
+        }
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white; padding: 12px 25px; border-radius: 30px;
+            cursor: pointer; font-weight: 700; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: buttonPulse 4s infinite alternate;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary-red); transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(230, 57, 70, 0.5);
+        }
+        @keyframes buttonPulse { from { box-shadow: 0 0 5px rgba(230, 57, 70, 0.2); } to { box-shadow: 0 0 15px rgba(230, 57, 70, 0.5); } }
+
+        /* 📋 Programme Grid */
+        .day-section { display: none; animation: shuffleIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes shuffleIn { 0% { opacity: 0; transform: translateX(-50px); } 100% { opacity: 1; transform: translateX(0); } }
+
+        .event-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; margin-top: 30px; }
+        
+        .event-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s;
+        }
+        .event-card:hover { transform: translateY(-10px) scale(1.02); background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.3); }
+
+        .event-card::after {
+            content: ""; position: absolute; top: -50%; left: -150%; width: 200%; height: 200%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg); animation: glowSweep 4s infinite;
+        }
+        @keyframes glowSweep { 0% { left: -150%; } 20% { left: 150%; } 100% { left: 150%; } }
+
+        .event-time { font-size: 0.85rem; font-weight: 800; color: var(--primary-red); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        .event-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 10px; }
+        .event-desc { color: rgba(255, 255, 255, 0.6); font-size: 0.95rem; line-height: 1.6; }
+
+        .event-badge {
+            position: absolute; top: 20px; right: 20px; background: rgba(255, 255, 255, 0.1);
+            padding: 5px 15px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+        }
+
+        /* 🎟️ CTA */
+        .cta-box {
+            margin-top: 80px; text-align: center; background: rgba(230, 57, 70, 0.1);
+            backdrop-filter: blur(20px); border: 1px solid rgba(230, 57, 70, 0.3);
+            border-radius: 40px; padding: 60px 40px;
+        }
+        .btn-ticket {
+            display: inline-block; background: var(--primary-red); color: white;
+            padding: 18px 50px; border-radius: 15px; font-weight: 900; text-decoration: none;
+            text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
+            position: relative; overflow: hidden;
+            animation: buttonPulse 3s infinite alternate;
+        }
+        .btn-ticket:hover { transform: scale(1.1); box-shadow: 0 15px 35px rgba(230, 57, 70, 0.6); }
+
+        /* 📊 Dots */
+        .slider-nav {
+            position: fixed; right: 40px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 20px; z-index: 100;
+        }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); transition: 0.6s; }
+        .dot.active { background: var(--primary-red); height: 24px; border-radius: 10px; box-shadow: 0 0 15px var(--primary-red); }
+
+        @media (max-width: 800px) {
+            .event-grid { grid-template-columns: 1fr; }
+            .navbar { display: none; }
+            .filter-btn { padding: 10px 20px; font-size: 0.8rem; }
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <header class="bg-white shadow-sm">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="{{ route('accueil') }}" class="text-2xl font-bold text-red-600">Eat<span class="text-yellow-500">&</span>Drink</a>
-            <nav class="hidden md:flex space-x-8">
-                <a href="{{ route('accueil') }}" class="text-gray-700 hover:text-red-600">Accueil</a>
-                <a href="{{ route('stand') }}" class="text-gray-700 hover:text-red-600">Stands</a>
-                <a href="{{ route('evènement') }}" class="text-red-600 font-semibold">Programme</a>
-                <a href="#" class="text-gray-700 hover:text-red-600">Billetterie</a>
-            </nav>
-        </div>
+<body>
+
+<div class="bg-slider">
+    <div class="bg-slide active" style="background-image: url('/img/stand.png');"></div>
+    <div class="bg-slide" style="background-image: url('/img/stand-2.png');"></div>
+    <div class="bg-slide" style="background-image: url('/img/stand-3.png');"></div>
+</div>
+<div class="overlay"></div>
+<div class="blink-overlay" id="blinkOverlay"></div>
+
+<nav class="navbar">
+    <a href="{{ route('accueil') }}" class="logo-text">Eat<span>&</span>Drink</a>
+    <div style="display: flex; gap: 30px; align-items: center;">
+        <a href="{{ route('accueil') }}" class="nav-link">Accueil</a>
+        <a href="{{ route('stand') }}" class="nav-link">Stands</a>
+        <a href="{{ route('evènement') }}" class="nav-link active" style="color: var(--primary-red);">Programme</a>
+        <a href="{{ route('panier') }}" class="nav-link">Panier</a>
+        <a href="#" class="nav-link" style="background: var(--primary-red); padding: 8px 15px; border-radius: 10px;">Profil</a>
+    </div>
+</nav>
+
+<div class="event-wrapper">
+    <header style="text-align: center; margin-bottom: 60px;">
+        <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 10px; text-transform: uppercase; letter-spacing: -2px;">Programme du Festival</h1>
+        <p style="color: rgba(255,255,255,0.6); font-size: 1.2rem;">Dégustations et animations non-stop de 16h à l'aube</p>
     </header>
 
-    <main class="container mx-auto px-4 py-12">
-        <section class="mb-16 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Programme du Festival</h1>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Dégustations et animations non-stop de 16h à l'aube</p>
-        </section>
+    <div class="filter-container">
+        <button class="filter-btn active" data-day="mercredi">MERCREDI</button>
+        <button class="filter-btn" data-day="jeudi">JEUDI</button>
+        <button class="filter-btn" data-day="vendredi">VENDREDI</button>
+        <button class="filter-btn" data-day="samedi">SAMEDI</button>
+        <button class="filter-btn" data-day="dimanche">DIMANCHE</button>
+    </div>
 
-        <div class="flex flex-wrap justify-center gap-3 mb-12 bg-white p-4 rounded-lg shadow-md">
-            <button class="day-filter px-6 py-3 rounded-full font-medium bg-gray-100 hover:bg-gray-200 transition">Mercredi</button>
-            <button class="day-filter px-6 py-3 rounded-full font-medium bg-gray-100 hover:bg-gray-200 transition">Jeudi</button>
-            <button class="day-filter px-6 py-3 rounded-full font-medium bg-gray-100 hover:bg-gray-200 transition">Vendredi</button>
-            <button class="day-filter px-6 py-3 rounded-full font-medium bg-gray-100 hover:bg-gray-200 transition">Samedi</button>
-            <button class="day-filter px-6 py-3 rounded-full font-medium bg-gray-100 hover:bg-gray-200 transition">Dimanche</button>
-        </div>
-
-        <div class="space-y-8">
-            <div class="day-section" data-day="mercredi">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                    <span class="bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center mr-4">1</span>
-                    Mercredi - Ouverture
-                </h2>
-                
-                <div class="programme-card continuous-event rounded-lg shadow-md p-6 mb-6">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="bg-white text-green-600 px-3 py-1 rounded-full text-sm font-semibold">Non-stop</span>
-                        <span class="text-gray-800 font-medium">16h - Aube</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Dégustation libre</h3>
-                    <p class="text-gray-700 mb-4">Accès à tous les stands de nourriture en continu</p>
-                    <div class="flex items-center text-sm text-gray-600">
-                        <i class="fas fa-map-marker-alt mr-2"></i>
-                        <span>Tous les stands</span>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="programme-card bg-white rounded-lg shadow-md p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="bg-yellow-100 text-yellow-600 px-3 py-1 rounded-full text-sm font-semibold">Animation</span>
-                            <span class="text-gray-500">18h - 20h</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Ambiance musicale</h3>
-                        <p class="text-gray-600 mb-4">Première soirée avec musique live</p>
-                        <div class="flex items-center text-sm text-gray-500">
-                            <i class="fas fa-map-marker-alt mr-2"></i>
-                            <span>Scène principale</span>
-                        </div>
-                    </div>
-                    
-                    <div class="programme-card bg-white rounded-lg shadow-md p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">DJ</span>
-                            <span class="text-gray-500">22h - Aube</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Soirée DJ</h3>
-                        <p class="text-gray-600 mb-4">Ambiance musicale jusqu'au petit matin</p>
-                        <div class="flex items-center text-sm text-gray-500">
-                            <i class="fas fa-map-marker-alt mr-2"></i>
-                            <span>Scène principale</span>
-                        </div>
-                    </div>
-                </div>
+    <!-- Mercredi -->
+    <div class="day-section" id="mercredi" style="display: block;">
+        <div class="event-grid">
+            <div class="event-card" style="grid-column: span 2; background: rgba(255,255,255,0.1);">
+                <span class="event-badge">Ouverture</span>
+                <span class="event-time">16h00 - Aube</span>
+                <h3 class="event-title">Dégustation Libre & Village Gastronomique</h3>
+                <p class="event-desc">Lancement officiel du festival. Accès illimité à plus de 50 stands de spécialités béninoises et internationales. Ambiance musicale douce pour débuter l'aventure.</p>
             </div>
-
-            <div class="day-section" data-day="jeudi">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                    <span class="bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center mr-4">2</span>
-                    Jeudi - Nuit des saveurs
-                </h2>
-                
-                <div class="programme-card continuous-event rounded-lg shadow-md p-6 mb-6">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="bg-white text-green-600 px-3 py-1 rounded-full text-sm font-semibold">Non-stop</span>
-                        <span class="text-gray-800 font-medium">16h - Aube</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Dégustation libre</h3>
-                    <p class="text-gray-700 mb-4">Accès à tous les stands de nourriture en continu</p>
-                    <div class="flex items-center text-sm text-gray-600">
-                        <i class="fas fa-map-marker-alt mr-2"></i>
-                        <span>Tous les stands</span>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="programme-card night-event rounded-lg shadow-md p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm font-semibold">Événement</span>
-                            <span class="text-white font-medium">23h - Aube</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-2">Nuit blanche DJ</h3>
-                        <p class="text-gray-200 mb-4">Grande soirée dansante avec DJ set jusqu'au petit matin</p>
-                        <div class="flex items-center text-sm text-gray-300">
-                            <i class="fas fa-map-marker-alt mr-2"></i>
-                            <span>Scène principale</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="event-card">
+                <span class="event-time">18h00 - 20h00</span>
+                <h3 class="event-title">Ambiance Acoustique</h3>
+                <p class="event-desc">Performance live d'artistes locaux sur la scène principale pendant votre dîner.</p>
             </div>
-
-            <div class="day-section" data-day="vendredi">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                    <span class="bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center mr-4">3</span>
-                    Vendredi - Soirée électro
-                </h2>
-                
-                <div class="programme-card continuous-event rounded-lg shadow-md p-6 mb-6">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="bg-white text-green-600 px-3 py-1 rounded-full text-sm font-semibold">Non-stop</span>
-                        <span class="text-gray-800 font-medium">16h - Aube</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Dégustation libre</h3>
-                    <p class="text-gray-700 mb-4">Accès à tous les stands de nourriture en continu</p>
-                    <div class="flex items-center text-sm text-gray-600">
-                        <i class="fas fa-map-marker-alt mr-2"></i>
-                        <span>Tous les stands</span>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="programme-card night-event rounded-lg shadow-md p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm font-semibold">Événement</span>
-                            <span class="text-white font-medium">23h - Aube</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-2">Soirée électro</h3>
-                        <p class="text-gray-200 mb-4">DJ set spécial musique électronique</p>
-                        <div class="flex items-center text-sm text-gray-300">
-                            <i class="fas fa-map-marker-alt mr-2"></i>
-                            <span>Scène principale</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="day-section" data-day="samedi">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                    <span class="bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center mr-4">4</span>
-                    Samedi - Grand soir
-                </h2>
-                
-                <div class="programme-card continuous-event rounded-lg shadow-md p-6 mb-6">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="bg-white text-green-600 px-3 py-1 rounded-full text-sm font-semibold">Non-stop</span>
-                        <span class="text-gray-800 font-medium">16h - Aube</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Dégustation libre</h3>
-                    <p class="text-gray-700 mb-4">Accès à tous les stands de nourriture en continu</p>
-                    <div class="flex items-center text-sm text-gray-600">
-                        <i class="fas fa-map-marker-alt mr-2"></i>
-                        <span>Tous les stands</span>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="programme-card night-event rounded-lg shadow-md p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-semibold">Événement</span>
-                            <span class="text-white font-medium">23h - Aube</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-2">Grande nuit festive</h3>
-                        <p class="text-gray-200 mb-4">DJ set exceptionnel avec invité surprise</p>
-                        <div class="flex items-center text-sm text-gray-300">
-                            <i class="fas fa-map-marker-alt mr-2"></i>
-                            <span>Scène principale</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="day-section" data-day="dimanche">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-                    <span class="bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center mr-4">5</span>
-                    Dimanche - Clôture
-                </h2>
-                
-                <div class="programme-card continuous-event rounded-lg shadow-md p-6 mb-6">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="bg-white text-green-600 px-3 py-1 rounded-full text-sm font-semibold">Non-stop</span>
-                        <span class="text-gray-800 font-medium">16h - Aube</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Dégustation libre</h3>
-                    <p class="text-gray-700 mb-4">Dernière occasion de découvrir tous les stands</p>
-                    <div class="flex items-center text-sm text-gray-600">
-                        <i class="fas fa-map-marker-alt mr-2"></i>
-                        <span>Tous les stands</span>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="programme-card night-event rounded-lg shadow-md p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="bg-yellow-100 text-yellow-600 px-3 py-1 rounded-full text-sm font-semibold">Événement</span>
-                            <span class="text-white font-medium">23h - Aube</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-2">Final en beauté</h3>
-                        <p class="text-gray-200 mb-4">Dernière soirée avec DJ jusqu'à l'aube</p>
-                        <div class="flex items-center text-sm text-gray-300">
-                            <i class="fas fa-map-marker-alt mr-2"></i>
-                            <span>Scène principale</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="event-card">
+                <span class="event-time">22h00 - Aube</span>
+                <h3 class="event-title">Night Warm-up DJ</h3>
+                <p class="event-desc">Première soirée clubbing en plein air pour les lève-tard.</p>
             </div>
         </div>
+    </div>
 
-        <section class="mt-16 bg-gradient-to-r from-red-600 to-yellow-500 rounded-lg p-8 text-center text-white">
-            <h2 class="text-2xl font-bold mb-4">Réservez vos billets dès maintenant !</h2>
-            <p class="mb-6 max-w-2xl mx-auto">Accès illimité à tous les stands et animations de 16h à l'aube</p>
-            <a href="#" class="inline-block bg-white text-red-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition">
-                <i class="fas fa-ticket-alt mr-2"></i> Acheter un pass
-            </a>
-        </section>
-    </main>
-
-    <footer class="bg-gray-800 text-white py-12">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <!-- Jeudi -->
+    <div class="day-section" id="jeudi">
+        <div class="event-grid">
+            <div class="event-card" style="grid-column: span 2; background: linear-gradient(135deg, rgba(230,57,70,0.2), rgba(0,0,0,0.2));">
+                <span class="event-badge">Spécial</span>
+                <span class="event-time">20h00 - 22h00</span>
+                <h3 class="event-title">Nuit des Saveurs Épicées</h3>
+                <p class="event-desc">Un parcours gustatif dédié aux amateurs de sensations fortes. Défis pimentés et découvertes culinaires intenses.</p>
+            </div>
+            <div class="event-card">
+                <span class="event-time">23h00 - Aube</span>
+                <h3 class="event-title">Nuit Blanche DJ Set</h3>
+                <p class="event-desc">Immersion totale dans les sons afro-beat et urbains jusqu'au petit matin.</p>
             </div>
         </div>
-    </footer>
+    </div>
 
-    <script>
-        document.querySelectorAll('.day-filter').forEach(button => {
-            button.addEventListener('click', function() {
-                document.querySelectorAll('.day-filter').forEach(btn => {
-                    btn.classList.remove('active-day');
-                    btn.classList.add('bg-gray-100', 'hover:bg-gray-200');
-                });
-                
-                this.classList.add('active-day');
-                this.classList.remove('bg-gray-100', 'hover:bg-gray-200');
-                
-                const day = this.textContent.trim().toLowerCase();
-                document.querySelectorAll('.day-section').forEach(section => {
-                    section.style.display = 'none';
-                    if(section.dataset.day.includes(day)) {
-                        section.style.display = 'block';
-                    }
-                });
+    <div class="cta-box">
+        <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 20px;">Ne manquez aucun moment !</h2>
+        <p style="color: rgba(255,255,255,0.7); margin-bottom: 40px; font-size: 1.1rem;">Accès illimité à tous les stands et toutes les soirées avec notre pass festival.</p>
+        <a href="#" class="btn-ticket">ACHETER MON PASS DÈS MAINTENANT</a>
+    </div>
+
+</div>
+
+<div class="slider-nav">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+</div>
+
+<script>
+    // 🌪️ Bg Slider
+    const slides = document.querySelectorAll('.bg-slide');
+    const dots = document.querySelectorAll('.dot');
+    const blink = document.getElementById('blinkOverlay');
+    let currentIdx = 0;
+
+    function nextSlide() {
+        blink.classList.add('blinking');
+        setTimeout(() => {
+            slides[currentIdx].classList.remove('active');
+            dots[currentIdx].classList.remove('active');
+            currentIdx = (currentIdx + 1) % slides.length;
+            slides[currentIdx].classList.add('active');
+            dots[currentIdx].classList.add('active');
+            setTimeout(() => blink.classList.remove('blinking'), 1000);
+        }, 300);
+    }
+    setInterval(nextSlide, 8000);
+
+    // 📅 Filter Logic
+    const filters = document.querySelectorAll('.filter-btn');
+    const sections = document.querySelectorAll('.day-section');
+
+    filters.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filters.forEach(f => f.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const target = btn.getAttribute('data-day');
+            sections.forEach(sec => {
+                sec.style.display = 'none';
+                if(sec.id === target) {
+                    sec.style.display = 'block';
+                }
             });
         });
+    });
+</script>
 
-        document.querySelector('.day-filter').click();
-    </script>
 </body>
 </html>
