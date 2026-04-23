@@ -170,18 +170,43 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
-            padding: 10px 25px;
+            padding: 12px 30px;
             border-radius: 30px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: buttonPulse 4s infinite alternate;
+        }
+
+        .filter-btn::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -100%;
+            width: 100%;
+            height: 200%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(35deg);
+            animation: buttonShimmer 6s infinite;
         }
 
         .filter-btn:hover, .filter-btn.active {
             background: var(--primary-red);
             border-color: var(--primary-red);
-            box-shadow: 0 5px 15px rgba(230, 57, 70, 0.4);
-            transform: translateY(-3px);
+            box-shadow: 0 5px 25px rgba(230, 57, 70, 0.6);
+            transform: translateY(-5px);
+            color: white;
+        }
+
+        .filter-btn.active {
+            animation: activeGlow 2s infinite alternate;
+        }
+
+        @keyframes activeGlow {
+            from { box-shadow: 0 5px 15px rgba(230, 57, 70, 0.4); }
+            to { box-shadow: 0 8px 30px rgba(230, 57, 70, 0.8), 0 0 15px rgba(255, 255, 255, 0.2); }
         }
 
         /* 🎪 Stand Grid */

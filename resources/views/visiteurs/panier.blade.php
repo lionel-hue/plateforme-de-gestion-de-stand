@@ -242,92 +242,9 @@
         }
 
         /* 🥘 Recommendations Grid */
-        .rec-section {
-            margin-top: 60px;
-        }
-
-        .rec-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 30px;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .rec-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .rec-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            opacity: 0;
-            animation: physicsEntrance 1.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        .rec-card:nth-child(1) { animation-delay: 0.2s; }
-        .rec-card:nth-child(2) { animation-delay: 0.4s; }
-        .rec-card:nth-child(3) { animation-delay: 0.6s; }
-
-        @keyframes physicsEntrance {
-            0% { opacity: 0; transform: scale(1.1) translateY(-30px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .rec-card:hover {
-            transform: translateY(-10px) scale(1.05);
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-        }
-
-        .rec-img-box {
-            position: relative;
-            height: 150px;
-            overflow: hidden;
-        }
-
-        .rec-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-            animation: imgGlowPulse 4s infinite alternate;
-        }
-
-        @keyframes imgGlowPulse {
-            0% { filter: drop-shadow(0 0 5px rgba(230, 57, 70, 0.1)); }
-            100% { filter: drop-shadow(0 0 20px rgba(230, 57, 70, 0.4)); }
-        }
-
-        .rec-card:hover .rec-img {
-            transform: scale(1.1);
-        }
-
-        .rec-content {
-            padding: 20px;
-            flex-grow: 1;
-        }
-
-        .rec-name {
-            font-weight: 700;
-            font-size: 1rem;
-            margin-bottom: 5px;
-        }
-
-        .rec-price {
-            color: var(--primary-red);
-            font-weight: 800;
-            font-size: 0.9rem;
-        }
+        .rec-section { margin-top: 60px; }
+        .rec-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 30px; text-align: center; text-transform: uppercase; letter-spacing: 2px; }
+        .rec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
         .btn-add {
             background: var(--primary-red);
@@ -369,11 +286,11 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
             opacity: 0;
-            transform: translateX(-100px) rotate(-5deg);
+            transform: translateX(-150px) rotate(-8deg);
         }
 
         .rec-card.revealed {
@@ -397,3 +314,192 @@
             height: 150px;
             overflow: hidden;
         }
+
+        .rec-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+            animation: imgGlowPulse 4s infinite alternate;
+        }
+
+        @keyframes imgGlowPulse {
+            0% { filter: drop-shadow(0 0 5px rgba(230, 57, 70, 0.1)); }
+            100% { filter: drop-shadow(0 0 20px rgba(230, 57, 70, 0.4)); }
+        }
+
+        .rec-card:hover .rec-img { transform: scale(1.1); }
+
+        .rec-content { padding: 20px; flex-grow: 1; }
+        .rec-name { font-weight: 700; font-size: 1rem; margin-bottom: 5px; }
+        .rec-price { color: var(--primary-red); font-weight: 800; font-size: 0.9rem; }
+
+        /* 📊 Vertical Dots */
+        .slider-nav {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 100;
+            padding: 20px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .dot.active { background: var(--primary-red); height: 24px; border-radius: 10px; box-shadow: 0 0 15px var(--primary-red); }
+
+        @media (max-width: 800px) {
+            .rec-grid { grid-template-columns: 1fr; }
+            .navbar { display: none; }
+            .glass-card { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="panier-wrapper">
+    <!-- 📸 Background Slideshow -->
+    <div class="bg-slider">
+        <div class="bg-slide active" style="background-image: url('/img/stand.png');"></div>
+        <div class="bg-slide" style="background-image: url('/img/stand-2.png');"></div>
+        <div class="bg-slide" style="background-image: url('/img/stand-3.png');"></div>
+    </div>
+    <div class="overlay"></div>
+    <div class="blink-overlay" id="blinkOverlay"></div>
+
+    <!-- 📊 Progress Dots -->
+    <div class="slider-nav">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <!-- 🌊 Glass Navbar -->
+    <nav class="navbar">
+        <a href="{{ route('accueil') }}" class="logo-text">Eat<span>&</span>Drink</a>
+        <div style="display: flex; gap: 30px; align-items: center;">
+            <a href="{{ route('accueil') }}" class="nav-link">Accueil</a>
+            <a href="{{ route('stand') }}" class="nav-link">Stands</a>
+            <a href="{{ route('panier') }}" class="nav-link active" style="color: var(--primary-red);">Panier</a>
+            <a href="{{ route('evènement') }}" class="nav-link">Programme</a>
+            <a href="#" class="nav-link" style="background: var(--primary-red); padding: 8px 15px; border-radius: 10px;">Profil</a>
+        </div>
+    </nav>
+
+    <div class="glass-card">
+        <div class="empty-state">
+            <div class="empty-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <h1 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 10px;">Votre Panier est Vide</h1>
+            <p style="color: rgba(255,255,255,0.6); font-size: 1.1rem; max-width: 400px; margin: 0 auto 30px;">Parcourez notre menu et ajoutez des délicieux plats à votre sélection.</p>
+            <a href="{{ route('stand') }}" class="btn-action">DÉCOUVRIR LES STANDS</a>
+        </div>
+
+        <div class="rec-section">
+            <h3 class="rec-title">Vous pourriez aimer</h3>
+            <div class="rec-grid">
+                <!-- Item 1 -->
+                <div class="rec-card">
+                    <div class="rec-img-box">
+                        <img src="https://images.unsplash.com/photo-1603360946369-dc9bb6258143?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Dibi spécial" class="rec-img">
+                    </div>
+                    <div class="rec-content">
+                        <div class="rec-name">Dibi spécial</div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                            <span class="rec-price">3,500 FCFA</span>
+                            <button class="btn-add"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="rec-card">
+                    <div class="rec-img-box">
+                        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Brochette mixte" class="rec-img">
+                    </div>
+                    <div class="rec-content">
+                        <div class="rec-name">Brochette mixte</div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                            <span class="rec-price">2,500 FCFA</span>
+                            <button class="btn-add"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="rec-card">
+                    <div class="rec-img-box">
+                        <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Alloco poulet" class="rec-img">
+                    </div>
+                    <div class="rec-content">
+                        <div class="rec-name">Pastèles de poulet</div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                            <span class="rec-price">2,000 FCFA</span>
+                            <button class="btn-add"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 40px; text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.4);">
+            &copy; {{ date('Y') }} Eat&Drink Bénin. Tous droits réservés.
+        </div>
+    </div>
+</div>
+
+<script>
+    // 🌪️ Background Logic
+    const slides = document.querySelectorAll('.bg-slide');
+    const dots = document.querySelectorAll('.dot');
+    const blinkOverlay = document.getElementById('blinkOverlay');
+    let currentIdx = 0;
+    
+    function transitionBackground() {
+        blinkOverlay.classList.remove('blinking');
+        void blinkOverlay.offsetWidth;
+        blinkOverlay.classList.add('blinking');
+
+        setTimeout(() => {
+            const prevSlide = slides[currentIdx];
+            currentIdx = (currentIdx + 1) % slides.length;
+            const nextSlide = slides[currentIdx];
+
+            dots.forEach(d => d.classList.remove('active'));
+            dots[currentIdx].classList.add('active');
+
+            nextSlide.style.opacity = '1';
+            nextSlide.classList.add('active');
+            prevSlide.classList.remove('active');
+            prevSlide.style.opacity = '0';
+        }, 300);
+    }
+
+    setInterval(transitionBackground, 8000);
+
+    // 🎭 Scroll Reveal Observer
+    const observerOptions = {
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.rec-card').forEach(card => {
+        observer.observe(card);
+    });
+</script>
+</body>
+</html>

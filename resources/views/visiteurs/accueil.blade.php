@@ -60,7 +60,7 @@
             overflow-y: auto; /* Allow vertical scrolling for the whole page */
         }
 
-        /* 📸 High-End Background Slider - Fixed position so it stays behind while scrolling content */
+        /* 📸 High-End Background Slider */
         .bg-slider {
             position: fixed;
             top: 0;
@@ -119,7 +119,7 @@
 
         @keyframes blinkTransition {
             0% { opacity: 0; }
-            25% { opacity: 0.6; }
+            25% { opacity: 0.25; }
             100% { opacity: 0; }
         }
 
@@ -134,7 +134,7 @@
             pointer-events: none;
         }
 
-        /* 💎 Main Portal Card - Adjusted for better height management */
+        /* 💎 Main Portal Card */
         .glass-portal {
             position: relative;
             z-index: 10;
@@ -151,7 +151,7 @@
             text-align: center;
             overflow: hidden;
             animation: cardEntrance 1.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            margin: auto; /* Center in the scrolling container */
+            margin: auto;
         }
 
         @keyframes cardEntrance {
@@ -169,14 +169,19 @@
             background: linear-gradient(
                 to right,
                 transparent,
-                rgba(255, 255, 255, 0.15),
+                rgba(255, 255, 255, 0.2),
                 transparent
             );
             transform: rotate(45deg);
             z-index: 11;
             pointer-events: none;
-            animation: glowSweep 2s ease-in-out forwards;
-            animation-delay: 1.6s;
+            animation: glowSweep 1.8s ease-in-out forwards;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes glowSweep {
+            0% { left: -150%; }
+            100% { left: 150%; }
         }
 
         /* 🔱 Branded Header */
@@ -230,20 +235,20 @@
             padding: 35px 20px;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0;
-            animation: physicsEntrance 1.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation: shuffleIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        .portal-item:nth-child(1) { animation-delay: 0.2s; }
-        .portal-item:nth-child(2) { animation-delay: 0.4s; }
-        .portal-item:nth-child(3) { animation-delay: 0.6s; }
-
-        @keyframes physicsEntrance {
-            0% { opacity: 0; transform: scale(1.1) translateY(-30px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
+        @keyframes shuffleIn {
+            0% { opacity: 0; transform: translateX(-100px) scale(0.9); }
+            100% { opacity: 1; transform: translateX(0) scale(1); }
         }
+
+        .portal-item:nth-child(1) { animation-delay: 1.2s; }
+        .portal-item:nth-child(2) { animation-delay: 1.4s; }
+        .portal-item:nth-child(3) { animation-delay: 1.6s; }
 
         .portal-item:hover {
             background: rgba(255, 255, 255, 0.12);
@@ -269,7 +274,7 @@
             color: rgba(255, 255, 255, 0.6);
             margin-bottom: 20px;
             line-height: 1.4;
-            min-height: 4.2em; /* Ensure some alignment */
+            min-height: 4.2em;
         }
 
         .btn-portal {
