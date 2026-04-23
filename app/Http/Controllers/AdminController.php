@@ -44,7 +44,7 @@ class AdminController extends Controller
         //Mise a jour de l'entrepreneur
         $entrepreneur->update([
             'role' => 'entrepreneur',
-            'statut' => 'approuve',
+            'status' => 'approuve',
             'raison_rejet' => null
         ]);
         //Sauvegarde de l'entrepreneur
@@ -64,7 +64,7 @@ class AdminController extends Controller
         $entrepreneur = Entrepreneur::findOrFail($id);
         //Mise a jour de l'entrepreneur
         $entrepreneur->update([
-            'statut' => 'refuse',
+            'status' => 'refuse',
             'raison_rejet' => $request->input('raison_rejet')
         ]);
         //Sauvegarde de l'entrepreneur
