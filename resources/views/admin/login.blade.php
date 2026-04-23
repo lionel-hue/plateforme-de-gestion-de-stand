@@ -29,9 +29,10 @@
         justify-content: center;
         position: relative;
         overflow: hidden;
+        background: #000;
     }
 
-    /* 📸 Dynamic Background Slider */
+    /* 📸 Professional Parallel Slider */
     .bg-slider {
         position: absolute;
         top: 0;
@@ -50,74 +51,32 @@
         background-size: cover;
         background-position: center;
         opacity: 0;
-        animation: slideAnimation 24s infinite;
+        z-index: 1;
+        transform: scale(1);
+        transition: transform 1.5s cubic-bezier(0.8, 0, 0.2, 1), opacity 0.5s ease;
     }
 
-    .bg-slide:nth-child(1) {
-        background-image: url('/img/admin-login-bg.png');
-        animation-delay: 0s;
+    .bg-slide.active {
+        opacity: 1;
+        z-index: 2;
+        animation: swell 12s ease-in-out infinite alternate;
     }
 
-    .bg-slide:nth-child(2) {
-        background-image: url('/img/admin-login-bg-2.png');
-        animation-delay: 8s;
+    @keyframes swell {
+        0% { transform: scale(1); }
+        100% { transform: scale(1.1); }
     }
 
-    .bg-slide:nth-child(3) {
-        background-image: url('/img/admin-login-bg-3.png');
-        animation-delay: 16s;
-    }
+    /* 🌪️ Transition Classes */
+    .slide-out-left { transform: translateX(-100%) scale(1.1) !important; opacity: 1 !important; }
+    .slide-out-right { transform: translateX(100%) scale(1.1) !important; opacity: 1 !important; }
+    .slide-out-top { transform: translateY(-100%) scale(1.1) !important; opacity: 1 !important; }
+    .slide-out-bottom { transform: translateY(100%) scale(1.1) !important; opacity: 1 !important; }
 
-    @keyframes slideAnimation {
-        0% {
-            opacity: 0;
-            transform: translateX(-50px) scale(1.1);
-        }
-        5% {
-            opacity: 1;
-            transform: translateX(0) scale(1.05);
-        }
-        28% {
-            opacity: 1;
-            transform: translateX(50px) scale(1);
-        }
-        33% {
-            opacity: 0;
-            transform: translateX(100px) scale(0.95);
-        }
-        /* Second cycle (Right to Left) */
-        33.0001% {
-            transform: translateX(50px) translateY(0) scale(1.1);
-        }
-        38% {
-            opacity: 1;
-            transform: translateX(0) scale(1.05);
-        }
-        61% {
-            opacity: 1;
-            transform: translateX(-50px) scale(1);
-        }
-        66% {
-            opacity: 0;
-            transform: translateX(-100px) scale(0.95);
-        }
-        /* Third cycle (Down to Up) */
-        66.0001% {
-            transform: translateY(50px) translateX(0) scale(1.1);
-        }
-        71% {
-            opacity: 1;
-            transform: translateY(0) scale(1.05);
-        }
-        94% {
-            opacity: 1;
-            transform: translateY(-50px) scale(1);
-        }
-        100% {
-            opacity: 0;
-            transform: translateY(-100px) scale(0.95);
-        }
-    }
+    .slide-in-left { transform: translateX(100%) scale(1.1); opacity: 1 !important; z-index: 3; }
+    .slide-in-right { transform: translateX(-100%) scale(1.1); opacity: 1 !important; z-index: 3; }
+    .slide-in-top { transform: translateY(100%) scale(1.1); opacity: 1 !important; z-index: 3; }
+    .slide-in-bottom { transform: translateY(-100%) scale(1.1); opacity: 1 !important; z-index: 3; }
 
     .overlay {
         position: absolute;
@@ -126,12 +85,14 @@
         width: 100%;
         height: 100%;
         background: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
-        z-index: 1;
+        z-index: 4;
+        pointer-events: none;
     }
 
+    /* 💎 Glass Card with Entrance Animations */
     .glass-card {
         position: relative;
-        z-index: 2;
+        z-index: 10;
         width: 100%;
         max-width: 440px;
         background: var(--glass-bg);
@@ -142,23 +103,75 @@
         box-shadow: 0 12px 40px 0 var(--glass-shadow);
         padding: 45px;
         color: white;
-        animation: fadeInScale 1s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        animation: cardEntrance 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
-    @keyframes fadeInScale {
-        from { opacity: 0; transform: scale(0.9) translateY(20px); }
-        to { opacity: 1; transform: scale(1) translateY(0); }
+    @keyframes cardEntrance {
+        0% { opacity: 0; transform: scale(0.7) translateY(100px); }
+        100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
+    /* ✨ Overall Card Glow Sweep (One-time) */
+    .glass-card::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -150%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            to right,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent
+        );
+        transform: rotate(45deg);
+        z-index: 11;
+        pointer-events: none;
+        animation: glowSweep 1.5s ease-in-out forwards;
+        animation-delay: 1.5s;
+    }
+
+    @keyframes glowSweep {
+        0% { left: -150%; }
+        100% { left: 150%; }
+    }
+
+    /* 🔱 Logo Continuous Glow */
     .logo-container {
         text-align: center;
         margin-bottom: 40px;
+        position: relative;
+    }
+
+    .logo-container i, .logo-text {
+        animation: logoGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes logoGlow {
+        from { text-shadow: 0 0 10px rgba(230, 57, 70, 0.3); }
+        to { text-shadow: 0 0 25px rgba(230, 57, 70, 0.9), 0 0 10px rgba(255, 255, 255, 0.5); }
+    }
+
+    /* ⚛️ Physics Reaction for Inputs & Buttons */
+    .form-group, .btn-submit {
+        opacity: 0;
+        animation: physicsEntrance 1.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .btn-submit { animation-delay: 0.3s; }
+
+    @keyframes physicsEntrance {
+        0% { opacity: 0; transform: scale(1.1) translateY(-20px); } /* Inverse reaction (Opposite direction) */
+        100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     .logo-container i {
         font-size: 3rem;
         color: white;
-        text-shadow: 0 0 15px rgba(230, 57, 70, 0.8);
         margin-bottom: 10px;
     }
 
@@ -226,10 +239,6 @@
         box-shadow: 0 0 20px rgba(230, 57, 70, 0.2);
     }
 
-    .glass-input::placeholder {
-        color: rgba(255, 255, 255, 0.4);
-    }
-
     .btn-submit {
         width: 100%;
         background: var(--primary-red);
@@ -249,10 +258,6 @@
         background: var(--primary-red-hover);
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(230, 57, 70, 0.6);
-    }
-
-    .btn-submit:active {
-        transform: translateY(0);
     }
 
     #togglePassword {
@@ -280,13 +285,6 @@
         border-color: rgba(255, 255, 255, 0.3);
     }
 
-    .error-msg {
-        color: #ffb3b3;
-        font-size: 0.8rem;
-        margin-top: 6px;
-        display: block;
-    }
-
     .footer-text {
         text-align: center;
         margin-top: 30px;
@@ -302,26 +300,22 @@
 </style>
 
 <div class="login-wrapper">
-    <!-- 🌠 Dynamic Background Slider -->
-    <div class="bg-slider">
-        <div class="bg-slide"></div>
-        <div class="bg-slide"></div>
-        <div class="bg-slide"></div>
+    <div class="bg-slider" id="bgSlider">
+        <div class="bg-slide active" style="background-image: url('/img/admin-login-bg.png');"></div>
+        <div class="bg-slide" style="background-image: url('/img/admin-login-bg-2.png');"></div>
+        <div class="bg-slide" style="background-image: url('/img/admin-login-bg-3.png');"></div>
     </div>
     <div class="overlay"></div>
 
     <div class="glass-card">
-        <!-- Logo Section -->
         <div class="logo-container">
             <i class="fa-solid fa-utensils"></i>
             <div class="logo-text">Eat<span>&</span>Drink</div>
             <p class="subtitle">Espace Administration</p>
         </div>
 
-        <!-- Login Form -->
         <form action="{{ route('login') }}" method="POST">
             @csrf
-
             <div class="form-group">
                 <label for="email">Identifiant</label>
                 <div class="input-wrapper">
@@ -330,7 +324,7 @@
                            placeholder="admin@eatdrink.bj" value="{{ old('email') }}" required autofocus>
                 </div>
                 @error('email')
-                    <span class="error-msg">{{ $message }}</span>
+                    <span class="error-msg" style="color: #ffb3b3; font-size: 0.8rem; margin-top: 6px; display: block;">{{ $message }}</span>
                 @enderror
             </div>
 
@@ -345,7 +339,7 @@
                     </button>
                 </div>
                 @error('password')
-                    <span class="error-msg">{{ $message }}</span>
+                    <span class="error-msg" style="color: #ffb3b3; font-size: 0.8rem; margin-top: 6px; display: block;">{{ $message }}</span>
                 @enderror
             </div>
 
@@ -373,15 +367,40 @@
         eyeIcon.classList.toggle('fa-eye-slash');
     });
 
-    // 🌪️ Subtle randomization of slide directions via JS (Optional, but adds to the "unpredictable" feel)
+    // 🌪️ Professional Carousel Flow Logic
     const slides = document.querySelectorAll('.bg-slide');
-    const animations = [
-        'slideLeftRight',
-        'slideRightLeft',
-        'slideBottomTop',
-        'slideTopBottom'
-    ];
+    let currentIdx = 0;
     
-    // We can inject different keyframes or just let the CSS handle the sequence
+    const transitions = [
+        { exit: 'slide-out-left', entry: 'slide-in-left' },
+        { exit: 'slide-out-right', entry: 'slide-in-right' },
+        { exit: 'slide-out-top', entry: 'slide-in-top' },
+        { exit: 'slide-out-bottom', entry: 'slide-in-bottom' }
+    ];
+
+    function transitionBackground() {
+        const prevSlide = slides[currentIdx];
+        currentIdx = (currentIdx + 1) % slides.length;
+        const nextSlide = slides[currentIdx];
+
+        const flow = transitions[Math.floor(Math.random() * transitions.length)];
+        
+        nextSlide.className = `bg-slide ${flow.entry}`;
+        void nextSlide.offsetWidth;
+        prevSlide.classList.add(flow.exit);
+        nextSlide.style.transform = 'translate(0, 0) scale(1)';
+        nextSlide.style.opacity = '1';
+
+        setTimeout(() => {
+            slides.forEach(s => {
+                s.className = 'bg-slide';
+                s.style.transform = '';
+                s.style.opacity = '';
+            });
+            nextSlide.classList.add('active');
+        }, 1500);
+    }
+
+    setInterval(transitionBackground, 8000);
 </script>
 @endsection
