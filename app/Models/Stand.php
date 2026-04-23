@@ -15,7 +15,7 @@ class Stand extends Model
         'prix',
         'image',
         'status',
-        'user_id',
+        'entrepreneur_id',
     ];
 
     public function Entrepreneur() {
