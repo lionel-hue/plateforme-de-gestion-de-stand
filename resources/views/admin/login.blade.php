@@ -154,8 +154,8 @@
         to { text-shadow: 0 0 25px rgba(230, 57, 70, 0.9), 0 0 10px rgba(255, 255, 255, 0.5); }
     }
 
-    /* ⚛️ Physics Reaction for Inputs & Buttons */
-    .form-group, .btn-submit {
+    /* ⚛️ Physics Reaction for Inputs */
+    .form-group {
         opacity: 0;
         animation: physicsEntrance 1.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
@@ -252,6 +252,16 @@
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         margin-top: 10px;
         box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4);
+        
+        /* Continuous Pulse Animation */
+        animation: physicsEntrance 1.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+                   buttonPulse 3s ease-in-out infinite alternate;
+        animation-delay: 0.3s, 1.6s; /* Starts pulse after entrance completes */
+    }
+
+    @keyframes buttonPulse {
+        from { transform: scale(1); box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4); }
+        to { transform: scale(1.03); box-shadow: 0 8px 25px rgba(230, 57, 70, 0.6); }
     }
 
     .btn-submit:hover {
