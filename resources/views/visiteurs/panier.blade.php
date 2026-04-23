@@ -3,174 +3,397 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panier</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Mon Panier | Eat&Drink Bénin</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: rgba(0, 0, 0, 0.3);
+            --primary-red: #e63946;
+            --primary-red-hover: #c1121f;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+            background: #000;
+        }
+
+        /* 🖱️ Custom High-End Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0505; }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--primary-red), #801a1a);
+            border-radius: 10px;
+            border: 2px solid #0a0505;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-red-hover); }
+
+        .panier-wrapper {
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+            padding: 40px 20px;
+            padding-top: 120px;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* 📸 Background Slideshow */
+        .bg-slider {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .bg-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            z-index: 1;
+            transform: scale(1);
+            transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+
+        .bg-slide.active {
+            opacity: 1;
+            z-index: 2;
+            animation: swell 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes swell {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        .blink-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, rgba(255, 230, 230, 0.3) 100%);
+            backdrop-filter: blur(15px);
+            z-index: 5;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .blinking { animation: blinkTransition 1.4s ease-in-out forwards; }
+        @keyframes blinkTransition {
+            0% { opacity: 0; }
+            25% { opacity: 0.6; }
+            100% { opacity: 0; }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.8) 100%);
+            z-index: 4;
+            pointer-events: none;
+        }
+
+        /* 🌊 Glass Navbar */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: white;
+            text-decoration: none;
+            letter-spacing: -1px;
+            animation: logoGlow 3s ease-in-out infinite alternate;
+        }
+
+        .logo-text span { color: var(--primary-red); }
+
+        @keyframes logoGlow {
+            from { text-shadow: 0 0 10px rgba(230, 57, 70, 0.2); }
+            to { text-shadow: 0 0 25px rgba(230, 57, 70, 0.8), 0 0 10px rgba(255, 255, 255, 0.4); }
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
         }
-        .active-nav {
-            border-bottom: 3px solid #E63946;
-            color: #E63946;
-            font-weight: 600;
+
+        .nav-link:hover, .nav-link.active { color: white; }
+
+        /* 💎 Glass Panier Card */
+        .glass-card {
+            position: relative;
+            z-index: 10;
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            box-shadow: 0 20px 50px var(--glass-shadow);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px;
+            color: white;
+            animation: cardEntrance 1.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
-        .product-image {
-            height: 180px;
-            object-fit: cover;
+
+        @keyframes cardEntrance {
+            0% { opacity: 0; transform: scale(0.9) translateY(50px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .empty-icon {
+            font-size: 5rem;
+            color: rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+            animation: iconFloat 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes iconFloat {
+            from { transform: translateY(0); opacity: 0.2; }
+            to { transform: translateY(-20px); opacity: 0.5; }
+        }
+
+        .btn-action {
+            display: inline-block;
+            background: var(--primary-red);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: buttonPulse 3s ease-in-out infinite alternate;
+        }
+
+        .btn-action:hover {
+            background: var(--primary-red-hover);
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(230, 57, 70, 0.5);
+        }
+
+        @keyframes buttonPulse {
+            from { transform: scale(1); box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3); }
+            to { transform: scale(1.04); box-shadow: 0 10px 20px rgba(230, 57, 70, 0.6); }
+        }
+
+        .btn-action::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -100%;
             width: 100%;
+            height: 200%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: rotate(35deg);
+            animation: buttonShimmer 4s infinite;
         }
-    </style>
-</head>
-<body class="bg-gray-50">
-    <header class="bg-white shadow-sm">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="{{ route('accueil')}}" class="text-2xl font-bold text-red-600">Eat<span class="text-yellow-500">&</span>Drink</a>
-            <div class="flex items-center space-x-4">
-                <span class="text-gray-700">
-                    <i class="fas fa-user mr-1"></i> Mon Compte
-                </span>
-                <!--<a href="#" class="relative text-gray-700 hover:text-red-600">
-                    <i class="fas fa-shopping-cart text-xl"></i>
-                    <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                </a>-->
-            </div>
-        </div>
-    </header>
 
-    <nav class="bg-white shadow-md">
-        <div class="container mx-auto px-4">
-            <div class="flex space-x-8">
-                <a href="{{ route('accueil') }}" class="py-4 px-2 text-gray-600 hover:text-red-600">Accueil</a>
-                <!--<a href="#" class="py-4 px-2 text-gray-600 hover:text-red-600">Menu</a>-->
-                <!--<a href="#" class="py-4 px-2 text-gray-600 hover:text-red-600">Contact</a>-->
-            </div>
-        </div>
-    </nav>
+        @keyframes buttonShimmer {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
 
-    <main class="container mx-auto px-4 py-8">
-        <div class="max-w-4xl mx-auto">
-            <div class="flex items-center text-sm text-gray-500 mb-6">
-                <a href="{{ route('accueil') }}" class="hover:text-red-600">Accueil</a>
-                <span class="mx-2">/</span>
-                <span class="text-red-600">Panier</span>
-            </div>
+        /* 🥘 Recommendations Grid */
+        .rec-section {
+            margin-top: 60px;
+        }
 
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="p-6 border-b border-gray-200">
-                    <h1 class="text-2xl font-bold text-gray-800">Mon Panier</h1>
-                </div>
+        .rec-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
 
-                <div class="p-8 text-center">
-                    <div class="mx-auto w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mb-6">
-                        <i class="fas fa-shopping-cart text-5xl text-gray-400"></i>
-                    </div>
-                    <h2 class="text-xl font-bold text-gray-700 mb-2">Votre panier est vide</h2>
-                    <p class="text-gray-500 mb-6">Parcourez notre menu et ajoutez des délicieux plats à votre panier</p>
-                    <!--<a href="#" class="inline-block bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
-                        <i class="fas fa-shopping-cart mr-2"></i> Voir tout le panier
-                    </a>-->
-                </div>
+        .rec-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
 
-                <div class="p-6 border-t border-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Vous pourriez aimer</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                        <div class="border rounded-lg overflow-hidden card-hover">
-                            <img src="https://images.unsplash.com/photo-1603360946369-dc9bb6258143?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
-                                alt="Dibi spécial" class="product-image">
-                            <div class="p-4">
-                                <h3 class="font-bold">Dibi spécial</h3>
-                                <div class="flex justify-between items-center mt-3">
-                                    <span class="text-red-600 font-semibold">3,500 FCFA</span>
-                                    <button class="text-xs bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 transition">
-                                        <i class="fas fa-plus mr-1"></i> Ajouter
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border rounded-lg overflow-hidden card-hover">
-                            <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
-                                alt="Brochette mixte" class="product-image">
-                            <div class="p-4">
-                                <h3 class="font-bold">Brochette mixte</h3>
-                                <div class="flex justify-between items-center mt-3">
-                                    <span class="text-red-600 font-semibold">2,500 FCFA</span>
-                                    <button class="text-xs bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 transition">
-                                        <i class="fas fa-plus mr-1"></i> Ajouter
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border rounded-lg overflow-hidden card-hover">
-                            <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
-                                alt="Alloco poulet" class="product-image">
-                            <div class="p-4">
-                                <h3 class="font-bold">Pastèles de poulet</h3>
-                                <div class="flex justify-between items-center mt-3">
-                                    <span class="text-red-600 font-semibold">2,000 FCFA</span>
-                                    <button class="text-xs bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 transition">
-                                        <i class="fas fa-plus mr-1"></i> Ajouter
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+        .rec-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            animation: physicsEntrance 1.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
 
-    <footer class="bg-gray-800 text-white py-8 mt-12">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Eat&Drink</h3>
-                    <p class="text-gray-400">Plateforme culinaire pour tous les goûts.</p>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Ressources</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">Centre d'aide</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Documentation</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Politiques</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Contact</h4>
-                    <ul class="space-y-2">
-                        <li class="text-gray-400"><i class="fas fa-envelope mr-2"></i>support@eatdrink.com</li>
-                        <li class="text-gray-400"><i class="fas fa-phone-alt mr-2"></i>+229 01 68 81 42 94</li>
-                        <li class="text-gray-400"><i class="fas fa-map-marker-alt mr-2"></i>Cotonou</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Suivez-nous</h4>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2025 Plateforme Eat&Drink. Tous droits réservés.</p>
-            </div>
-        </div>
-    </footer>
+        .rec-card:nth-child(1) { animation-delay: 0.2s; }
+        .rec-card:nth-child(2) { animation-delay: 0.4s; }
+        .rec-card:nth-child(3) { animation-delay: 0.6s; }
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const currentPath = window.location.pathname;
-            document.querySelectorAll('nav a').forEach(link => {
-                if (link.getAttribute('href') === currentPath) {
-                    link.classList.add('active-nav');
-                    link.classList.remove('text-gray-600', 'hover:text-red-600');
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+        @keyframes physicsEntrance {
+            0% { opacity: 0; transform: scale(1.1) translateY(-30px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .rec-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .rec-img-box {
+            position: relative;
+            height: 150px;
+            overflow: hidden;
+        }
+
+        .rec-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+            animation: imgGlowPulse 4s infinite alternate;
+        }
+
+        @keyframes imgGlowPulse {
+            0% { filter: drop-shadow(0 0 5px rgba(230, 57, 70, 0.1)); }
+            100% { filter: drop-shadow(0 0 20px rgba(230, 57, 70, 0.4)); }
+        }
+
+        .rec-card:hover .rec-img {
+            transform: scale(1.1);
+        }
+
+        .rec-content {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .rec-name {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .rec-price {
+            color: var(--primary-red);
+            font-weight: 800;
+            font-size: 0.9rem;
+        }
+
+        .btn-add {
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(230, 57, 70, 0.4);
+            animation: buttonPulse 3s ease-in-out infinite alternate;
+        }
+
+        .btn-add::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -100%;
+            width: 100%;
+            height: 200%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: rotate(35deg);
+            animation: buttonShimmer 4s infinite;
+        }
+
+        .btn-add:hover {
+            transform: scale(1.15);
+            background: var(--primary-red-hover);
+            box-shadow: 0 8px 20px rgba(230, 57, 70, 0.7);
+        }
+
+        /* 🎭 Scroll Shuffle Animation */
+        .rec-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateX(-100px) rotate(-5deg);
+        }
+
+        .rec-card.revealed {
+            opacity: 1;
+            transform: translateX(0) rotate(0deg);
+        }
+
+        .rec-card:nth-child(1) { transition-delay: 0.1s; }
+        .rec-card:nth-child(2) { transition-delay: 0.3s; }
+        .rec-card:nth-child(3) { transition-delay: 0.5s; }
+
+        .rec-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .rec-img-box {
+            position: relative;
+            height: 150px;
+            overflow: hidden;
+        }
