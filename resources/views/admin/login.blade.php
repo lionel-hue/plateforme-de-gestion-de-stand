@@ -32,7 +32,7 @@
         background: #000;
     }
 
-    /* 📸 Professional Parallel Slider */
+    /* 📸 Professional Horizontal Parallel Slider */
     .bg-slider {
         position: absolute;
         top: 0;
@@ -53,7 +53,7 @@
         opacity: 0;
         z-index: 1;
         transform: scale(1);
-        transition: transform 1.5s cubic-bezier(0.8, 0, 0.2, 1), opacity 0.5s ease;
+        transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1), opacity 0.4s ease;
     }
 
     .bg-slide.active {
@@ -67,16 +67,12 @@
         100% { transform: scale(1.1); }
     }
 
-    /* 🌪️ Transition Classes */
+    /* 🌪️ Horizontal Transition Classes */
     .slide-out-left { transform: translateX(-100%) scale(1.1) !important; opacity: 1 !important; }
     .slide-out-right { transform: translateX(100%) scale(1.1) !important; opacity: 1 !important; }
-    .slide-out-top { transform: translateY(-100%) scale(1.1) !important; opacity: 1 !important; }
-    .slide-out-bottom { transform: translateY(100%) scale(1.1) !important; opacity: 1 !important; }
 
     .slide-in-left { transform: translateX(100%) scale(1.1); opacity: 1 !important; z-index: 3; }
     .slide-in-right { transform: translateX(-100%) scale(1.1); opacity: 1 !important; z-index: 3; }
-    .slide-in-top { transform: translateY(100%) scale(1.1); opacity: 1 !important; z-index: 3; }
-    .slide-in-bottom { transform: translateY(-100%) scale(1.1); opacity: 1 !important; z-index: 3; }
 
     .overlay {
         position: absolute;
@@ -89,7 +85,7 @@
         pointer-events: none;
     }
 
-    /* 💎 Glass Card with Entrance Animations */
+    /* 💎 Glass Card Entrance Animations */
     .glass-card {
         position: relative;
         z-index: 10;
@@ -112,7 +108,7 @@
         100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    /* ✨ Overall Card Glow Sweep (One-time) */
+    /* ✨ One-time Card Glow Sweep */
     .glass-card::after {
         content: "";
         position: absolute;
@@ -162,10 +158,9 @@
 
     .form-group:nth-child(1) { animation-delay: 0.1s; }
     .form-group:nth-child(2) { animation-delay: 0.2s; }
-    .btn-submit { animation-delay: 0.3s; }
 
     @keyframes physicsEntrance {
-        0% { opacity: 0; transform: scale(1.1) translateY(-20px); } /* Inverse reaction (Opposite direction) */
+        0% { opacity: 0; transform: scale(1.1) translateY(-20px); }
         100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
@@ -239,7 +234,9 @@
         box-shadow: 0 0 20px rgba(230, 57, 70, 0.2);
     }
 
+    /* 🔘 Enticing Button with Continuous Shimmer & Swell */
     .btn-submit {
+        position: relative;
         width: 100%;
         background: var(--primary-red);
         color: white;
@@ -252,21 +249,45 @@
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         margin-top: 10px;
         box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4);
+        overflow: hidden;
         
-        /* Continuous Pulse Animation */
         animation: physicsEntrance 1.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
                    buttonPulse 3s ease-in-out infinite alternate;
-        animation-delay: 0.3s, 1.6s; /* Starts pulse after entrance completes */
+        animation-delay: 0.3s, 1.6s;
+    }
+
+    .btn-submit::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -100%;
+        width: 100%;
+        height: 200%;
+        background: linear-gradient(
+            to right,
+            transparent,
+            rgba(255, 255, 255, 0.4),
+            transparent
+        );
+        transform: rotate(35deg);
+        animation: buttonShimmer 4s infinite;
+        animation-delay: 2s;
+    }
+
+    @keyframes buttonShimmer {
+        0% { left: -100%; }
+        20% { left: 100%; }
+        100% { left: 100%; }
     }
 
     @keyframes buttonPulse {
         from { transform: scale(1); box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4); }
-        to { transform: scale(1.03); box-shadow: 0 8px 25px rgba(230, 57, 70, 0.6); }
+        to { transform: scale(1.04); box-shadow: 0 8px 25px rgba(230, 57, 70, 0.7); }
     }
 
     .btn-submit:hover {
         background: var(--primary-red-hover);
-        transform: translateY(-2px);
+        transform: translateY(-2px) scale(1.05);
         box-shadow: 0 6px 20px rgba(230, 57, 70, 0.6);
     }
 
@@ -333,9 +354,6 @@
                     <input type="email" name="email" id="email" class="glass-input" 
                            placeholder="admin@eatdrink.bj" value="{{ old('email') }}" required autofocus>
                 </div>
-                @error('email')
-                    <span class="error-msg" style="color: #ffb3b3; font-size: 0.8rem; margin-top: 6px; display: block;">{{ $message }}</span>
-                @enderror
             </div>
 
             <div class="form-group">
@@ -348,9 +366,6 @@
                         <i class="fa-solid fa-eye" id="eyeIcon"></i>
                     </button>
                 </div>
-                @error('password')
-                    <span class="error-msg" style="color: #ffb3b3; font-size: 0.8rem; margin-top: 6px; display: block;">{{ $message }}</span>
-                @enderror
             </div>
 
             <button type="submit" class="btn-submit">
@@ -377,15 +392,14 @@
         eyeIcon.classList.toggle('fa-eye-slash');
     });
 
-    // 🌪️ Professional Carousel Flow Logic
+    // 🌪️ Professional Horizontal Carousel Flow Logic
     const slides = document.querySelectorAll('.bg-slide');
     let currentIdx = 0;
     
+    // Direction pairs (Exit, Entry) - Now strictly horizontal
     const transitions = [
-        { exit: 'slide-out-left', entry: 'slide-in-left' },
-        { exit: 'slide-out-right', entry: 'slide-in-right' },
-        { exit: 'slide-out-top', entry: 'slide-in-top' },
-        { exit: 'slide-out-bottom', entry: 'slide-in-bottom' }
+        { exit: 'slide-out-left', entry: 'slide-in-left' },   // Flow to Left
+        { exit: 'slide-out-right', entry: 'slide-in-right' }  // Flow to Right
     ];
 
     function transitionBackground() {
@@ -408,9 +422,9 @@
                 s.style.opacity = '';
             });
             nextSlide.classList.add('active');
-        }, 1500);
+        }, 1200); // Faster transition (1.2s)
     }
 
-    setInterval(transitionBackground, 8000);
+    setInterval(transitionBackground, 7000); // Transition every 7 seconds
 </script>
 @endsection
