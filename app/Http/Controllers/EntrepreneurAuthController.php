@@ -28,14 +28,8 @@ class EntrepreneurAuthController extends Controller
      */
     public function register(EntrepreneurRequeust $request)
     {
-        //Validation des données
-        $validator = $request->validated();
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        //Validation est automatique avec EntrepreneurRequeust
+        $validated = $request->validated();
 
         //Creation de l'entrepreneur
         $user = Entrepreneur::create([
