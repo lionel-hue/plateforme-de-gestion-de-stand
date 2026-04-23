@@ -1,77 +1,272 @@
 @extends('components.aut-layout')
 
-@section('title', 'Authentification Admin')
+@section('title', 'Authentification Admin | Eat&Drink')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-50 via-white to-red-50">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+<style>
+    :root {
+        --glass-bg: rgba(255, 255, 255, 0.15);
+        --glass-border: rgba(255, 255, 255, 0.25);
+        --glass-shadow: rgba(0, 0, 0, 0.2);
+        --primary-red: #e63946;
+        --primary-red-hover: #c1121f;
+    }
 
-        <!-- Logo / Titre -->
-        <div class="text-center mb-6">
-            <a href="{{ route('accueil') }}" class="flex items-center justify-center gap-2 mb-2">
-                <i class="fa-solid fa-utensils text-red-500 text-2xl"></i>
-                <h1 class="text-2xl font-extrabold text-gray-800">
-                    Eat<span class="text-red-600">&</span>Drink
-                </h1>
-            </a>
-            <h2 class="text-xl font-semibold text-gray-700 mt-4">Connexion à l’espace admin</h2>
-            <p class="text-gray-500 text-sm mt-1">Entrez vos identifiants pour accéder au tableau de bord</p>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+    }
+
+    .login-wrapper {
+        min-height: 100vh;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        background-image: url('/img/admin-login-bg.png');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    .login-wrapper::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.1) 100%);
+        z-index: 1;
+    }
+
+    .glass-card {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 420px;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-radius: 24px;
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 8px 32px 0 var(--glass-shadow);
+        padding: 40px;
+        color: white;
+    }
+
+    .logo-container {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .logo-container i {
+        font-size: 3rem;
+        color: white;
+        text-shadow: 0 0 15px rgba(230, 57, 70, 0.8);
+        margin-bottom: 10px;
+    }
+
+    .logo-text {
+        font-size: 2.2rem;
+        font-weight: 900;
+        letter-spacing: -1px;
+    }
+
+    .logo-text span {
+        color: var(--primary-red);
+    }
+
+    .subtitle {
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-top: 8px;
+    }
+
+    .form-group {
+        margin-bottom: 24px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.9);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .input-wrapper {
+        position: relative;
+    }
+
+    .input-wrapper i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 1.1rem;
+    }
+
+    .glass-input {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 14px 15px 14px 45px;
+        color: white;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    .glass-input:focus {
+        outline: none;
+        background: rgba(255, 255, 255, 0.15);
+        border-color: var(--primary-red);
+        box-shadow: 0 0 15px rgba(230, 57, 70, 0.3);
+    }
+
+    .glass-input::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-submit {
+        width: 100%;
+        background: var(--primary-red);
+        color: white;
+        border: none;
+        padding: 16px;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        margin-top: 10px;
+        box-shadow: 0 4px 15px rgba(230, 57, 70, 0.4);
+    }
+
+    .btn-submit:hover {
+        background: var(--primary-red-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(230, 57, 70, 0.6);
+    }
+
+    .btn-submit:active {
+        transform: translateY(0);
+    }
+
+    .error-msg {
+        color: #ffb3b3;
+        font-size: 0.8rem;
+        margin-top: 6px;
+        display: block;
+    }
+
+    .footer-text {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .footer-text a {
+        color: var(--primary-red);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    /* Animation */
+    .glass-card {
+        animation: fadeInScale 0.6s ease-out;
+    }
+
+    @keyframes fadeInScale {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    #togglePassword {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.6);
+        cursor: pointer;
+        font-size: 1.1rem;
+        padding: 0;
+    }
+
+    #togglePassword:hover {
+        color: white;
+    }
+</style>
+
+<div class="login-wrapper">
+    <div class="glass-card">
+        <!-- Logo Section -->
+        <div class="logo-container">
+            <i class="fa-solid fa-utensils"></i>
+            <div class="logo-text">Eat<span>&</span>Drink</div>
+            <p class="subtitle">Espace Administration</p>
         </div>
 
-        <!-- Formulaire -->
-        <form action="{{ route('login') }}" method="POST" class="space-y-5">
+        <!-- Login Form -->
+        <form action="{{ route('login') }}" method="POST">
             @csrf
 
-            <!-- Email -->
-            <div>
-                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Adresse e-mail</label>
-                <input type="email" name="email" id="email" placeholder="ex: admin@exemple.com"
-                       value="{{ old('email') }}"
-                       class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-150">
+            <div class="form-group">
+                <label for="email">Identifiant</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" name="email" id="email" class="glass-input" 
+                           placeholder="admin@eatdrink.bj" value="{{ old('email') }}" required autofocus>
+                </div>
                 @error('email')
-                    <small class="text-red-500 text-sm mt-1 block">{{ $message }}</small>
+                    <span class="error-msg">{{ $message }}</span>
                 @enderror
             </div>
 
-            <!-- Mot de passe -->
-            <div>
-                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Mot de passe</label>
-                <div class="relative">
-                    <input type="password" name="password" id="password"
-                           placeholder="********"
-                           class="w-full border border-gray-300 rounded-lg px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-150">
-                    <button type="button" id="togglePassword"
-                            class="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-red-500 transition">
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" name="password" id="password" class="glass-input" 
+                           placeholder="••••••••" required>
+                    <button type="button" id="togglePassword">
                         <i class="fa-solid fa-eye" id="eyeIcon"></i>
                     </button>
                 </div>
                 @error('password')
-                    <small class="text-red-500 text-sm mt-1 block">{{ $message }}</small>
+                    <span class="error-msg">{{ $message }}</span>
                 @enderror
             </div>
 
-            <!-- Bouton -->
-            <button type="submit"
-                class="w-full bg-red-600 text-white font-semibold py-2 rounded-lg hover:bg-red-700 transition duration-200 shadow-md">
-                <i class="fa-solid fa-right-to-bracket mr-2"></i> Se connecter
+            <button type="submit" class="btn-submit">
+                ACCÉDER AU DASHBOARD
             </button>
         </form>
 
-        <!-- Lien mot de passe oublié -->
-        <div class="text-center mt-4">
-            <a href="#" class="text-sm text-gray-500 hover:text-red-600 transition">
-                Mot de passe oublié ?
-            </a>
+        <div class="footer-text">
+            &copy; {{ date('Y') }} Eat&Drink Bénin. <br>
+            <a href="{{ route('accueil') }}">Retour à l'accueil</a>
         </div>
     </div>
 </div>
 
-<!-- Footer -->
-<footer class="text-center py-4 text-gray-500 text-sm">
-    © {{ date('Y') }} <span class="text-red-600 font-semibold">Eat&Drink</span> — Tous droits réservés 🍹
-</footer>
-
-<!-- Script pour afficher / masquer le mot de passe -->
 <script>
     const togglePassword = document.getElementById('togglePassword');
     const passwordField = document.getElementById('password');
