@@ -61,8 +61,8 @@ Route::prefix('admin')->group(function () {
 Route::middleware(['auth:user','admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/demandes', [AdminController::class, 'demandes'])->name('demandes');
-    Route::post('/demandes/{id}/approuver', [AdminController::class, 'approuver'])->name('approuver');
-    Route::post('/demandes/{id}/rejetter', [AdminController::class, 'rejetter']);
+    Route::post('/demandes/{id}/approuver', [AdminController::class, 'approuver'])->name('admin.approuver');
+    Route::post('/demandes/{id}/rejetter', [AdminController::class, 'rejetter'])->name('admin.rejeter');
     Route::get('/stands', [AdminController::class, 'stands'])->name('stands');
     Route::get('/commandes/{id}', [AdminController::class, 'commandesParStand'])->name('commandes');
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
