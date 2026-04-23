@@ -27,6 +27,26 @@
             background: #000;
         }
 
+        /* 🖱️ Custom High-End Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0505;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--primary-red), #801a1a);
+            border-radius: 10px;
+            border: 2px solid #0a0505;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-red-hover);
+            box-shadow: 0 0 10px var(--primary-red);
+        }
+
         .welcome-wrapper {
             min-height: 100vh;
             width: 100%;
